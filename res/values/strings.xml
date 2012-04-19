@@ -15,8 +15,8 @@
     <string name="add_view_text_title">Title (required):</string>
     <string name="add_view_text_category">Select category (optional):</string>  
     <string name="add_view_text_descr">Description (optional):</string>
+    <string name="add_view_text_estimate">Time to finish in minutes (optional):</string>
     <string name="add_view_text_deadline">Deadline (optional):</string>
-    <string name="add_view_text_estimate">Estimated time to finish(optional):</string>
-    <string name="add_view_text_sharecontacts">Share with contacts</string>  
+    <string name="add_view_text_sharecontacts">Share task (optional):</string>  
     
 </resources>

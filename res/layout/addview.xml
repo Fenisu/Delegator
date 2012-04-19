@@ -1,42 +1,153 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<ScrollView
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:orientation="vertical"
-  android:layout_width="match_parent"
-  android:layout_height="match_parent">
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent">
 	  <RelativeLayout
 	  android:layout_width="fill_parent"
 	  android:layout_height="wrap_content"
 	  android:padding="5px"
 	  >
-	 <TextView
-	 android:id="@+id/add_view_title_text"
-	 android:text="@string/add_view_text_title"
-	 android:layout_width="fill_parent"
-	 android:layout_height="wrap_content"
-	 /> 
-	 <EditText
-	 android:editable="true"
-	 android:id="@+id/add_view_title"
-	 android:layout_width="fill_parent"
-	 android:layout_height="wrap_content"
-	 android:layout_below="@id/add_view_title_text"
-	 />
-	 <TextView
-	 android:id="@+id/add_view_category_text"
-	 android:text="@string/add_view_text_category"
-	 android:layout_width="fill_parent"
-	 android:layout_height="wrap_content"
-	 android:layout_below="@id/add_view_title"
-	 /> 
-	 <Spinner
-	 android:editable="true"
-	 android:id="@+id/add_view_category"
-	 android:layout_width="fill_parent"
-	 android:layout_height="wrap_content"
-	 android:layout_below="@id/add_view_category_text"
-	 />
- 	 </RelativeLayout>
+		 <TextView
+		 android:id="@+id/add_view_title_text"
+		 android:text="@string/add_view_text_title"
+		 android:layout_width="fill_parent"
+		 android:layout_height="wrap_content"
+		 /> 
+		 <EditText
+		 android:editable="true"
+		 android:id="@+id/add_view_title"
+		 android:layout_width="fill_parent"
+		 android:layout_height="wrap_content"
+		 android:layout_below="@id/add_view_title_text"
+		 />
+		 <TextView
+		 android:id="@+id/add_view_category_text"
+		 android:text="@string/add_view_text_category"
+		 android:layout_width="fill_parent"
+		 android:layout_height="wrap_content"
+		 android:layout_below="@id/add_view_title"
+		 /> 
+		 <Spinner
+		 android:editable="true"
+		 android:id="@+id/add_view_category"
+		 android:layout_width="fill_parent"
+		 android:layout_height="wrap_content"
+		 android:layout_below="@id/add_view_category_text"
+		 />
+		 <TextView
+		 android:id="@+id/add_view_descr_text"
+		 android:text="@string/add_view_text_descr"
+		 android:layout_width="fill_parent"
+		 android:layout_height="wrap_content"
+		 android:layout_below="@id/add_view_category"
+		 /> 
+		 <EditText
+		 android:editable="true"
+		 android:id="@+id/add_view_descr"
+		 android:layout_width="fill_parent"
+		 android:layout_height="wrap_content"
+		 android:singleLine="false" android:lines="3"
+		 android:layout_below="@id/add_view_descr_text"
+		 />
+		 <TextView
+		 android:id="@+id/add_view_estimate_text"
+		 android:text="@string/add_view_text_estimate"
+		 android:layout_width="fill_parent"
+		 android:layout_height="wrap_content"
+		 android:layout_below="@id/add_view_descr"
+		 /> 
+		 <EditText
+		 android:editable="true"
+		 android:id="@+id/add_view_estimate"
+		 android:layout_width="fill_parent"
+		 android:layout_height="wrap_content"
+		 android:inputType="number"
+		 android:layout_below="@id/add_view_estimate_text"
+		 />
 
-    
-</LinearLayout>
+		 
+		 <TableLayout
+		 android:id="@+id/table1"
+		 android:layout_width="fill_parent"
+		 android:layout_height="fill_parent"
+		 android:layout_below="@id/add_view_estimate"
+		 android:stretchColumns="1"
+		 android:padding="10dip"
+		>
+			 <TableRow>
+			 	<TextView
+				 android:id="@+id/add_view_deadline_text"
+				 android:text="@string/add_view_text_deadline"/>
+				<TextView
+				 android:id="@+id/add_view_sharecontacts_text"
+				 android:text="@string/add_view_text_sharecontacts"
+				 android:layout_gravity="right"/> 
+			 </TableRow>
+			 
+			 <TableRow>
+				<ImageView
+				 android:id="@+id/add_view_deadline"
+				 android:layout_width="0dip"
+				 android:layout_height="wrap_content"
+				 android:layout_weight="1"
+				 android:src="@drawable/calendar"
+				
+				 /> 
+		
+
+				<ImageView
+				 android:id="@+id/add_view_sharecontacts"
+				 android:layout_width="0dip"
+				 android:layout_height="wrap_content"
+				 android:layout_weight="1"
+				 android:src="@drawable/share"
+			     />
+			 </TableRow>
+	    </TableLayout>
+		<TableLayout
+		 android:layout_width="fill_parent"
+		 android:layout_height="wrap_content"
+		 android:layout_below="@id/table1"
+		 android:layout_alignParentBottom="true"
+		 android:layout_gravity="bottom"
+		 android:stretchColumns="1"
+		 android:padding="10dip"
+		 android:gravity="bottom">
+			 <TableRow
+			  android:gravity="bottom"
+			  android:layout_height="fill_parent"
+			  android:layout_marginTop="10dip"
+			  >
+				  <View 
+				  android:background="#ff444444" 
+				  android:layout_height="5px"
+				  android:layout_span="2"
+				  android:layout_gravity="bottom"
+				  />
+			 
+			 </TableRow>
+			 <TableRow
+				android:gravity="bottom"
+								  android:layout_gravity="bottom">
+				<ImageView
+				 android:id="@+id/add_view_save"
+				 android:layout_width="0dip"
+				 android:layout_height="wrap_content"
+				 android:layout_weight="1"
+				 android:src="@drawable/save"
+				 				  android:layout_gravity="bottom"
+				 />
+				<ImageView
+				 android:id="@+id/add_view_cancel"
+				 android:layout_width="0dip"
+				 android:layout_height="wrap_content"
+				 android:layout_weight="1"
+				 android:src="@drawable/clear"
+				 				  android:layout_gravity="bottom"
+			     />
+		 </TableRow>
+		 </TableLayout>
+ 	 </RelativeLayout>
+</ScrollView>

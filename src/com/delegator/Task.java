@@ -1,6 +1,7 @@
 package com.delegator;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * Describes a task
@@ -9,14 +10,10 @@ import java.util.ArrayList;
  */
 public class Task implements Item{
     public final String title;
-    public int description;
-    public int deadlineYear;
-    public int deadlineMonth;
-    public int deadlineDay;
-    public int deadlineHour;
-    public int deadlineMinute;
-    public ArrayList<Contact> collaborators = new ArrayList<Contact>();
-    private int[] collaboratorScore;
+    public String description;
+    Calendar deadline;
+    private ArrayList<Contact> collaborators = new ArrayList<Contact>();
+    private int[] collaboratorTime;
     public int timeWorkedOnTask;
     boolean finished = false;
     
@@ -30,6 +27,20 @@ public class Task implements Item{
     @Override
     public boolean isCategory() {
         return false;
+    }
+    
+    /**
+     * Returns the total number of minutes worked on
+     * this task by all collaborators.
+     * 
+     * @return the total number of minutes
+     */
+    public int getTotalMinutes(){
+        int total = 0;
+        for(int i=0; i < collaboratorTime.length; i++){
+            total = total + collaboratorTime[i];
+        }
+        return total;
     }
 
 

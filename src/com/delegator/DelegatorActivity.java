@@ -2,18 +2,12 @@ package com.delegator;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedList;
-
 import android.app.Activity;
-import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.database.DataSetObserver;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -22,12 +16,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
-import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.SlidingDrawer;
 import android.widget.TextView;
 
 public class DelegatorActivity extends Activity {
@@ -121,7 +112,6 @@ public class DelegatorActivity extends Activity {
             default:
                 return super.onContextItemSelected(item);
         }
-        
     }
     
     /**
@@ -142,7 +132,7 @@ public class DelegatorActivity extends Activity {
         }
     }
     
-    /*
+    /**
      * What to do when an options item has been clicked
      * (These are defined in bar_menu)
      * 
@@ -155,7 +145,6 @@ public class DelegatorActivity extends Activity {
             case R.id.bar_menu_add:
                 Intent i = new Intent(getBaseContext(), AddActivity.class);
                 startActivity(i);
-                // TODO start AddActivity
                 return true;
             case R.id.bar_menu_clear:
                 // TODO add AlertDialog
@@ -172,6 +161,12 @@ public class DelegatorActivity extends Activity {
         }
     }
     
+    /**
+     * Assists in population of listview with
+     * items (Tasks and CategoryItems)
+     * @author Luceat
+     *
+     */
     public class TaskAdapter extends ArrayAdapter<Item> {
 
         private ArrayList<Item> items;
@@ -216,7 +211,7 @@ public class DelegatorActivity extends Activity {
                         title.setText((ei.title));      
                     }
                     if (ei.finished){
-                        title.setPaintFlags(title.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                        title.setPaintFlags(title.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG); //ugly
                         v.setBackgroundColor(Color.DKGRAY);
                         button.setVisibility(View.GONE);
                     }
