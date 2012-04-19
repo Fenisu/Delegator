@@ -1,0 +1,4 @@
+delegator
+=========
+
+Just delegator
