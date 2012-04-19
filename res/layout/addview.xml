@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="vertical"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
+	  <RelativeLayout
+	  android:layout_width="fill_parent"
+	  android:layout_height="wrap_content"
+	  android:padding="5px"
+	  >
+	 <TextView
+	 android:id="@+id/add_view_title_text"
+	 android:text="@string/add_view_text_title"
+	 android:layout_width="fill_parent"
+	 android:layout_height="wrap_content"
+	 /> 
+	 <EditText
+	 android:editable="true"
+	 android:id="@+id/add_view_title"
+	 android:layout_width="fill_parent"
+	 android:layout_height="wrap_content"
+	 android:layout_below="@id/add_view_title_text"
+	 />
+	 <TextView
+	 android:id="@+id/add_view_category_text"
+	 android:text="@string/add_view_text_category"
+	 android:layout_width="fill_parent"
+	 android:layout_height="wrap_content"
+	 android:layout_below="@id/add_view_title"
+	 /> 
+	 <Spinner
+	 android:editable="true"
+	 android:id="@+id/add_view_category"
+	 android:layout_width="fill_parent"
+	 android:layout_height="wrap_content"
+	 android:layout_below="@id/add_view_category_text"
+	 />
+ 	 </RelativeLayout>
+
+    
+</LinearLayout>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+        <item 
+        android:id="@+id/bar_menu_add" 
+        android:title="@string/bar_menu_add" 
+        android:icon="@drawable/add"/>
+        <item 
+        android:id="@+id/bar_menu_settings" 
+        android:title="@string/bar_menu_settings" 
+        android:icon="@drawable/settings"/>
+        <item 
+        android:id="@+id/bar_menu_share" 
+        android:title="@string/bar_menu_share" 
+        android:icon="@drawable/share"/>
+        <item 
+        android:id="@+id/bar_menu_clear" 
+        android:title="@string/bar_menu_clear" 
+        android:icon="@drawable/clear"/>
+</menu>
+

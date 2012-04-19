@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Delegator</string>
+    <string name="list_item_task_button_title">Start Timer</string>
+    <string name="list_item_menu_finished_title">Mark as finished</string>
+    <string name="list_item_menu_remove_title">Remove</string>
+    
+    <!-- Values for options menu or action bar -->
+    <string name="bar_menu_add">Add</string>
+    <string name="bar_menu_settings">Settings</string>
+    <string name="bar_menu_share">Share</string>
+    <string name="bar_menu_clear">Clear</string>
+    
+    <!-- Values for AddActivity view -->
+    <string name="add_view_text_title">Title (required):</string>
+    <string name="add_view_text_category">Select category (optional):</string>  
+    <string name="add_view_text_descr">Description (optional):</string>
+    <string name="add_view_text_deadline">Deadline (optional):</string>
+    <string name="add_view_text_estimate">Estimated time to finish(optional):</string>
+    <string name="add_view_text_sharecontacts">Share with contacts</string>  
+    
+</resources>
