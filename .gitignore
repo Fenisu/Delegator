@@ -10,3 +10,7 @@
 
 # Eclipse bin #
 bin/*
+
+# Android #
+*.dex
+*.apk
