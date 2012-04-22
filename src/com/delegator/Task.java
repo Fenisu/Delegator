@@ -12,7 +12,7 @@ public class Task implements Item{
     public final String title;
     public String description;
     Date deadline;
-    private ArrayList<Contact> collaborators = new ArrayList<Contact>();
+    private ArrayList<Collaborator> collaborators = new ArrayList<Collaborator>();
     private int[] collaboratorTime;
     boolean finished = false;
     

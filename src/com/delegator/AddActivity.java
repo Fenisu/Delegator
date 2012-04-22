@@ -42,6 +42,7 @@ public class AddActivity extends Activity {
     private ArrayList<Integer> categoryPositions = new ArrayList<Integer>();
     private Task currentTask;
     private int chosenCategoryPos;
+    private boolean wantToSave = false;
     
 	private Button mPickTime;
 	private Button mPickDate;
@@ -116,13 +117,14 @@ public class AddActivity extends Activity {
     }
     
 
-
-    public void onFinish(Bundle savedInstanceState){
-        shortItems.add(currentTask);
-        //currentTask.title = title;
-        //currentTask.description = description;
-        currentTask.deadline = new Date(mYear, mMonth, mDay -1);
-        
+    @Override
+    public void onDestroy(){
+    	if (isFinishing() && wantToSave){
+    		shortItems.add(t);
+        	//currentTask.title = title;
+	        //currentTask.description = description;
+        	currentTask.deadline = new Date(mYear, mMonth, mDay -1);
+    	}
     }
     
     /**

@@ -12,11 +12,17 @@
     <string name="bar_menu_clear">Clear</string>
     
     <!-- Values for AddActivity view -->
-    <string name="add_view_text_title">Title (required):</string>
-    <string name="add_view_text_category">Select category (optional):</string>  
-    <string name="add_view_text_descr">Description (optional):</string>
-    <string name="add_view_text_estimate">Time to finish in minutes (optional):</string>
-    <string name="add_view_text_deadline">Deadline (optional):</string>
-    <string name="add_view_text_sharecontacts">Share task (optional):</string>
+    <string name="add_view_text_title">Title (*):</string>
+    <string name="add_view_text_category">Select category:</string>  
+    <string name="add_view_text_descr">Description:</string>
+    <string name="add_view_text_estimate">Time to finish in minutes:</string>
+    <string name="add_view_text_deadline">Deadline:</string>
+    <string name="add_view_text_sharecontacts">Share task:</string>  
     <string name="add_view_text_wrong_date">Back to the Future?</string>
+    
+    <!-- Values for TimerActivity view -->
+    <string name="pause_button_text">Pause</string>
+    <string name="forfeit_button_text">Forfeit</string>
+    <string name="stop_button_text">Stop</string>
+    
 </resources>

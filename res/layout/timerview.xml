@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+    <TextView
+    	android:id="@+id/clock"
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	android:layout_centerHorizontal="true"
+    	android:gravity="center"
+    	android:visible="true"
+    	android:textAppearance="?android:attr/textAppearanceLarge"
+    	android:textStyle="bold"
+    	android:textSize="65dp"
+    	android:text="00:00:00">
+  
+    </TextView>
+    <LinearLayout
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+    	android:layout_centerHorizontal="true"
+    	android:gravity="center"
+    	android:orientation="horizontal">
+	    <Button
+	    	android:id="@+id/pause_button"
+	    	android:layout_width="wrap_content"
+	    	android:layout_height="wrap_content"
+	    	android:textAppearance="?android:attr/textAppearanceLarge"
+	    	android:text="@string/pause_button_text">
+	    </Button>
+	    <Button
+	    	android:id="@+id/forfeit_button"
+	    	android:layout_width="wrap_content"
+	    	android:layout_height="wrap_content"
+	    	android:textAppearance="?android:attr/textAppearanceLarge"
+	    	android:text="@string/forfeit_button_text">
+	    </Button>
+	    <Button
+	    	android:id="@+id/stop_button"
+	    	android:layout_width="wrap_content"
+	    	android:layout_height="wrap_content"
+	    	android:textAppearance="?android:attr/textAppearanceLarge"
+	    	android:text="@string/stop_button_text">
+	    </Button>
+    </LinearLayout>
+
+</LinearLayout>
