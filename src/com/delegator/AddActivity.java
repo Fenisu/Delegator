@@ -1,12 +1,9 @@
 package com.delegator;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -14,16 +11,17 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.View;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -43,11 +41,13 @@ public class AddActivity extends Activity {
     private Task currentTask;
     private int chosenCategoryPos;
     private boolean wantToSave = false;
+    private boolean dateChanged = false;
     
 	private Button mPickTime;
 	private Button mPickDate;
 	
 	// Date / Time Picker fields
+	private Date chosenDate;
 	private int mHour;
 	private int mMinute;
 	private int mYear;
@@ -116,14 +116,47 @@ public class AddActivity extends Activity {
  		updateDisplay();
     }
     
+    /**
+     * Handles clicks on "Save" and "Cancel" buttons
+     * 
+     * @param v the view being clicked
+     */
+    public void onButtonClick(View v){
+    	int id = v.getId();
+    	switch (id){
+    	case R.id.add_view_save:
+    		wantToSave = true;
+    		finish();
+    		break;
+    	case R.id.add_view_cancel:
+    		wantToSave = false;
+    		finish();
+    		break;
+    	default:
+    		wantToSave = false;
+    		finish();
+    	} 				 			
+    }
 
     @Override
     public void onDestroy(){
+    	super.onDestroy();
     	if (isFinishing() && wantToSave){
-    		shortItems.add(currentTask);
-        	//currentTask.title = title;
-	        //currentTask.description = description;
-        	currentTask.deadline = new Date(mYear, mMonth, mDay -1);
+    		String title = ((EditText)findViewById(R.id.add_view_title)).getText().toString();
+    		String description = ((EditText)findViewById(R.id.add_view_descr)).getText().toString();
+    		String estimatedTime = ((EditText)findViewById(R.id.add_view_estimate)).getText().toString();
+    		int estTime = Integer.parseInt(estimatedTime);
+    		if (title != null){
+    			Intent i = this.getIntent();
+    			i.putExtra("TITLE", title);
+    			i.putExtra("DESCRIPTION", description);
+    			i.putExtra("ESTIMATED_TIME", estTime);
+    			
+	        	if (dateChanged){
+		        	i.putExtra("DATE", chosenDate.getTime());
+		        }
+		        //TODO Actually sending back the result...
+	       	}
     	}
     }
     

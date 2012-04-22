@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
-import android.provider.ContactsContract.CommonDataKinds.Email;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -149,6 +148,7 @@ public class DelegatorActivity extends Activity {
     	startActivity(i);
     }
     
+    
     /**
      * What to do when an options item has been clicked
      * (These are defined in bar_menu)
@@ -161,7 +161,8 @@ public class DelegatorActivity extends Activity {
         switch (item.getItemId()) {
             case R.id.bar_menu_add:
                 Intent i = new Intent(getBaseContext(), AddActivity.class);
-                startActivity(i);
+                startActivityForResult(i, 3); //TODO Actually getting the result...
+                adapter.notifyDataSetChanged();
                 return true;
             case R.id.bar_menu_clear:
                 // TODO add AlertDialog
