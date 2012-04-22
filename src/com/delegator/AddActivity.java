@@ -1,10 +1,15 @@
 package com.delegator;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -132,17 +137,46 @@ public class AddActivity extends Activity {
      * 
      * @author NNMN
      */
-    private void writeJSON(){
+    private String writeJSON(){
     	JSONObject taskToFile = new JSONObject();
+    	LinkedList<Comparable> listToObject = new LinkedList();
+    	StringWriter out = new StringWriter();
     	try {
     		taskToFile.put("title", currentTask.title);
     		taskToFile.put("description", currentTask.description);
     		taskToFile.put("deadline", currentTask.deadline);
-    		taskToFile.put("collaboratorTime", 0);
+    		listToObject.add(0);
+    		taskToFile.put("collaboratorTime", listToObject);
+    		listToObject.clear();
+    		listToObject.add(localUser.email);
+    		taskToFile.put("collaborator", listToObject);
+    		return taskToFile.toString();
     	} catch (JSONException e) {
     		e.printStackTrace();
     	}
     }
+    
+    /**
+     * Save JSON Object formatted Task to file.
+     * This would save the file in:
+     * /data/data/com.delegator/files/
+     * 
+     * @author NoNaMeNo
+     */
+    private void saveFile(String taskToFile){
+        try {            
+            FileOutputStream fOut = openFileOutput("data.json",
+                                                    MODE_WORLD_READABLE);
+            OutputStreamWriter osw = new OutputStreamWriter(fOut);
+            
+            osw.write(taskToFile);
+            osw.flush();
+            osw.close();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+    }
+    
     /**
      * Searches the items arraylist for CategoryItems and
      * adds them to the arraylist category.
