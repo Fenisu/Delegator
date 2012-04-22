@@ -32,7 +32,7 @@ public class TimerActivity extends Activity {
 	public void onDestroy(){
 		if (isFinishing()){
 			if (!forfeit && clockHelper.finished){
-				currentTask.timeWorkedOnTask +=  clockHelper.getElapsedTime(); 
+				currentTask.addProgress(clockHelper.getElapsedTime(), DelegatorActivity.localUser); 
 			}
 		}
 	}

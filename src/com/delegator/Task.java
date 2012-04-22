@@ -16,8 +16,9 @@ public class Task implements Item{
     private int[] collaboratorTime;
     boolean finished = false;
     
-    public Task(String title){
+    public Task(String title, Collaborator owner){
         this.title = title;
+        collaborators.add(owner);
     }
     
     /**
@@ -40,6 +41,17 @@ public class Task implements Item{
             total = total + collaboratorTime[i];
         }
         return total;
+    }
+    
+    /**
+     * Adds progress in minutes for the Collaborator collaborator.
+     * 
+     * @param int progress to add
+     * @param Collaborator the collaborator who contributed
+     */
+    public void addProgress(int progress, Collaborator collaborator){
+    	int pos = collaborators.indexOf(collaborator);
+    	collaboratorTime[pos] += progress;
     }
 
 

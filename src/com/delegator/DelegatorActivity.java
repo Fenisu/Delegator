@@ -37,18 +37,18 @@ public class DelegatorActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         items.add(new CategoryItem("Kategori1"));
-        items.add(new Task("Task1"));
-        items.add(new Task("Task2"));
+        items.add(new Task("Task1", localUser));
+        items.add(new Task("Task2", localUser));
         
         items.add(new CategoryItem("Kategori2"));
-        items.add(new Task("Task3"));
-        items.add(new Task("Task4"));
+        items.add(new Task("Task3", localUser));
+        items.add(new Task("Task4", localUser));
         
         items.add(new CategoryItem("Kategori3"));
-        items.add(new Task("Task4"));
-        items.add(new Task("Task5"));
-        items.add(new Task("Task6"));
-        items.add(new Task("Task7"));
+        items.add(new Task("Task4", localUser));
+        items.add(new Task("Task5", localUser));
+        items.add(new Task("Task6", localUser));
+        items.add(new Task("Task7", localUser));
         
         adapter = new TaskAdapter(this, items);
 

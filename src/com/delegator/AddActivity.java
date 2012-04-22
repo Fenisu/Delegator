@@ -120,7 +120,7 @@ public class AddActivity extends Activity {
     @Override
     public void onDestroy(){
     	if (isFinishing() && wantToSave){
-    		shortItems.add(t);
+    		shortItems.add(currentTask);
         	//currentTask.title = title;
 	        //currentTask.description = description;
         	currentTask.deadline = new Date(mYear, mMonth, mDay -1);
