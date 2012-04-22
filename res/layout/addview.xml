@@ -124,7 +124,8 @@
 				 android:layout_height="wrap_content"
 				 android:layout_weight="1"
 				 android:src="@drawable/save"
-				 				  android:layout_gravity="bottom"
+				 android:layout_gravity="bottom"
+				 android:onClick="onButtonClick"
 				 />
 				<ImageView
 				 android:id="@+id/add_view_cancel"
@@ -132,7 +133,8 @@
 				 android:layout_height="wrap_content"
 				 android:layout_weight="1"
 				 android:src="@drawable/clear"
-				 				  android:layout_gravity="bottom"
+				 android:layout_gravity="bottom"
+				 android:onClick="onButtonClick"
 			     />
 		 </TableRow>
 		 </TableLayout>

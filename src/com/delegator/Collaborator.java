@@ -1,6 +1,5 @@
 package com.delegator;
 
-import android.provider.ContactsContract.CommonDataKinds.Email;
 
 public class Collaborator {
     public final String name;

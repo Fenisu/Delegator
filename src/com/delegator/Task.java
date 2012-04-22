@@ -15,6 +15,7 @@ public class Task implements Item{
     private ArrayList<Collaborator> collaborators = new ArrayList<Collaborator>();
     private int[] collaboratorTime;
     boolean finished = false;
+	public int estimatedTime;
     
     public Task(String title, Collaborator owner){
         this.title = title;

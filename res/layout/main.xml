@@ -4,12 +4,6 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     >
-	<!-- </!><include
-		android:id="@+id/title_bar"
-		android:layout_alignParentTop="true"
-		layout="@menu:title_bar" />  -->
-
-  
     <ListView
         android:id="@+id/list"
        	android:layout_width="fill_parent"
