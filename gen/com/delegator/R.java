@@ -35,17 +35,21 @@ public final class R {
         public static final int add_view_sharecontacts_text=0x7f06000a;
         public static final int add_view_title=0x7f060001;
         public static final int add_view_title_text=0x7f060000;
-        public static final int bar_menu_add=0x7f060014;
-        public static final int bar_menu_clear=0x7f060017;
-        public static final int bar_menu_settings=0x7f060015;
-        public static final int bar_menu_share=0x7f060016;
+        public static final int bar_menu_add=0x7f060018;
+        public static final int bar_menu_clear=0x7f06001b;
+        public static final int bar_menu_settings=0x7f060019;
+        public static final int bar_menu_share=0x7f06001a;
+        public static final int clock=0x7f060014;
+        public static final int forfeit_button=0x7f060016;
         public static final int list=0x7f060013;
         public static final int list_item_category_text=0x7f06000f;
-        public static final int list_item_menu_finished=0x7f060018;
-        public static final int list_item_menu_remove=0x7f060019;
+        public static final int list_item_menu_finished=0x7f06001c;
+        public static final int list_item_menu_remove=0x7f06001d;
         public static final int list_item_task_button=0x7f060011;
         public static final int list_item_task_button_title=0x7f060012;
         public static final int list_item_task_title=0x7f060010;
+        public static final int pause_button=0x7f060015;
+        public static final int stop_button=0x7f060017;
         public static final int table1=0x7f060008;
     }
     public static final class layout {
@@ -53,6 +57,7 @@ public final class R {
         public static final int list_item_category=0x7f030001;
         public static final int list_item_task=0x7f030002;
         public static final int main=0x7f030003;
+        public static final int timerview=0x7f030004;
     }
     public static final class menu {
         public static final int bar_menu=0x7f050000;
@@ -74,8 +79,13 @@ public final class R {
         public static final int bar_menu_clear=0x7f040007;
         public static final int bar_menu_settings=0x7f040005;
         public static final int bar_menu_share=0x7f040006;
+        public static final int forfeit_button_text=0x7f04000f;
         public static final int list_item_menu_finished_title=0x7f040002;
         public static final int list_item_menu_remove_title=0x7f040003;
         public static final int list_item_task_button_title=0x7f040001;
+        /**  Values for TimerActivity view 
+         */
+        public static final int pause_button_text=0x7f04000e;
+        public static final int stop_button_text=0x7f040010;
     }
 }

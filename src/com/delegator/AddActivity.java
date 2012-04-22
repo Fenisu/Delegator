@@ -25,6 +25,7 @@ public class AddActivity extends Activity {
     private ArrayList<Integer> categoryPositions = new ArrayList<Integer>();
     private Task t;
     private int chosenCategoryPos;
+    private boolean wantToSave = false;
     
     /**
      * Do some things when the activity is created.
@@ -47,9 +48,11 @@ public class AddActivity extends Activity {
     }
     
 
-
-    public void onFinish(Bundle savedInstanceState){
-        shortItems.add(t);
+    @Override
+    public void onDestroy(){
+    	if (isFinishing() && wantToSave){
+    		shortItems.add(t);
+    	}
     }
     
     /**

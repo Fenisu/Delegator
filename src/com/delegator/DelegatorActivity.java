@@ -2,12 +2,14 @@ package com.delegator;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.provider.ContactsContract.CommonDataKinds.Email;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -22,7 +24,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 public class DelegatorActivity extends Activity {
+	public static final String LIST_POSITION = "LIST_POSITION";
     public static ArrayList<Item> items = new ArrayList<Item>();
+    public final static Collaborator localUser = new Collaborator("Adam Johansson", "luceatadam@gmail.com", "+46736001187");
     //public ArrayList<Item> items = new ArrayList<Item>();
     ListView l;
     public TaskAdapter adapter;
@@ -130,6 +134,19 @@ public class DelegatorActivity extends Activity {
                 }
             }
         }
+    }
+    
+    /**
+     * Handles a click on a "Show timer" button
+     * 
+     * @param v the view (button) being clicked
+     */
+    public void timerClickHandler(View v){
+    	//Position in ListView of button being clicked
+    	int pos = ((ListView)(v.getParent().getParent().getParent())).getPositionForView(v);
+    	Intent i = new Intent(getBaseContext(), TimerActivity.class);
+    	i.putExtra(LIST_POSITION, pos);
+    	startActivity(i);
     }
     
     /**
