@@ -79,31 +79,18 @@
 			 <TableRow>
 			 	<TextView
 				 android:id="@+id/add_view_deadline_text"
-				 android:text="@string/add_view_text_deadline"/>
-				<TextView
-				 android:id="@+id/add_view_sharecontacts_text"
-				 android:text="@string/add_view_text_sharecontacts"
-				 android:layout_gravity="right"/> 
+				 android:text="@string/add_view_text_deadline"/> 
 			 </TableRow>
 			 
 			 <TableRow>
-				<ImageView
-				 android:id="@+id/add_view_deadline"
-				 android:layout_width="0dip"
-				 android:layout_height="wrap_content"
-				 android:layout_weight="1"
-				 android:src="@drawable/calendar"
-				
-				 /> 
-		
-
-				<ImageView
-				 android:id="@+id/add_view_sharecontacts"
-				 android:layout_width="0dip"
-				 android:layout_height="wrap_content"
-				 android:layout_weight="1"
-				 android:src="@drawable/share"
-			     />
+			    <Button android:id="@+id/pickDate"
+       			 android:layout_width="wrap_content"
+        		 android:layout_height="wrap_content"
+        		 android:text=""/> 
+			    <Button android:id="@+id/pickTime"
+       			 android:layout_width="wrap_content"
+        		 android:layout_height="wrap_content"
+        		 android:text=""/>
 			 </TableRow>
 	    </TableLayout>
 		<TableLayout

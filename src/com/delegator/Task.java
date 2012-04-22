@@ -1,7 +1,7 @@
 package com.delegator;
 
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Describes a task
@@ -11,10 +11,9 @@ import java.util.Calendar;
 public class Task implements Item{
     public final String title;
     public String description;
-    Calendar deadline;
+    Date deadline;
     private ArrayList<Contact> collaborators = new ArrayList<Contact>();
     private int[] collaboratorTime;
-    public int timeWorkedOnTask;
     boolean finished = false;
     
     public Task(String title){

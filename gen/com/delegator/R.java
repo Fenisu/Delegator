@@ -21,31 +21,30 @@ public final class R {
         public static final int share=0x7f020007;
     }
     public static final class id {
-        public static final int add_view_cancel=0x7f06000e;
+        public static final int add_view_cancel=0x7f06000d;
         public static final int add_view_category=0x7f060003;
         public static final int add_view_category_text=0x7f060002;
-        public static final int add_view_deadline=0x7f06000b;
         public static final int add_view_deadline_text=0x7f060009;
         public static final int add_view_descr=0x7f060005;
         public static final int add_view_descr_text=0x7f060004;
         public static final int add_view_estimate=0x7f060007;
         public static final int add_view_estimate_text=0x7f060006;
-        public static final int add_view_save=0x7f06000d;
-        public static final int add_view_sharecontacts=0x7f06000c;
-        public static final int add_view_sharecontacts_text=0x7f06000a;
+        public static final int add_view_save=0x7f06000c;
         public static final int add_view_title=0x7f060001;
         public static final int add_view_title_text=0x7f060000;
-        public static final int bar_menu_add=0x7f060014;
-        public static final int bar_menu_clear=0x7f060017;
-        public static final int bar_menu_settings=0x7f060015;
-        public static final int bar_menu_share=0x7f060016;
-        public static final int list=0x7f060013;
-        public static final int list_item_category_text=0x7f06000f;
-        public static final int list_item_menu_finished=0x7f060018;
-        public static final int list_item_menu_remove=0x7f060019;
-        public static final int list_item_task_button=0x7f060011;
-        public static final int list_item_task_button_title=0x7f060012;
-        public static final int list_item_task_title=0x7f060010;
+        public static final int bar_menu_add=0x7f060013;
+        public static final int bar_menu_clear=0x7f060016;
+        public static final int bar_menu_settings=0x7f060014;
+        public static final int bar_menu_share=0x7f060015;
+        public static final int list=0x7f060012;
+        public static final int list_item_category_text=0x7f06000e;
+        public static final int list_item_menu_finished=0x7f060017;
+        public static final int list_item_menu_remove=0x7f060018;
+        public static final int list_item_task_button=0x7f060010;
+        public static final int list_item_task_button_title=0x7f060011;
+        public static final int list_item_task_title=0x7f06000f;
+        public static final int pickDate=0x7f06000a;
+        public static final int pickTime=0x7f06000b;
         public static final int table1=0x7f060008;
     }
     public static final class layout {
@@ -67,6 +66,7 @@ public final class R {
         /**  Values for AddActivity view 
          */
         public static final int add_view_text_title=0x7f040008;
+        public static final int add_view_text_wrong_date=0x7f04000e;
         public static final int app_name=0x7f040000;
         /**  Values for options menu or action bar 
          */
