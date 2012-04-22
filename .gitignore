@@ -9,4 +9,8 @@
 *.*~
 
 # Eclipse bin #
-bin/
+bin/*
+
+# Android #
+*.dex
+*.apk
