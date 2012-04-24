@@ -1,6 +1,7 @@
 package com.delegator;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 
 import android.app.Activity;
@@ -21,33 +22,38 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class DelegatorActivity extends Activity {
 	public static final String LIST_POSITION = "LIST_POSITION";
     public static ArrayList<Item> items = new ArrayList<Item>();
     public final static Collaborator localUser = new Collaborator("Adam Johansson", "luceatadam@gmail.com", "+46736001187");
+    private static final int ADD_TASK = 128;
+    private static final boolean FIRST_RUN = true;
     //public ArrayList<Item> items = new ArrayList<Item>();
     ListView l;
     public TaskAdapter adapter;
     //Workaround for bug #7139 remembers the item# of listview
     private View lastMenuView = null; 
 
+    /**
+     * (non-Javadoc)
+     * @see android.app.Activity#onCreate(android.os.Bundle)
+     */
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        items.add(new CategoryItem("Kategori1"));
-        items.add(new Task("Task1", localUser));
-        items.add(new Task("Task2", localUser));
-        
-        items.add(new CategoryItem("Kategori2"));
-        items.add(new Task("Task3", localUser));
-        items.add(new Task("Task4", localUser));
-        
-        items.add(new CategoryItem("Kategori3"));
-        items.add(new Task("Task4", localUser));
-        items.add(new Task("Task5", localUser));
-        items.add(new Task("Task6", localUser));
-        items.add(new Task("Task7", localUser));
+        if (FIRST_RUN){
+            items.add(new CategoryItem("Category 1"));
+            Task t = new Task("Example task", localUser);
+            t.description = "This is an example description";
+            t.estimatedTime = 120;
+            items.add(t);
+            
+            items.add(new CategoryItem("Category 2"));
+            
+            items.add(new CategoryItem("Category 3"));
+        }
         
         adapter = new TaskAdapter(this, items);
 
@@ -56,11 +62,19 @@ public class DelegatorActivity extends Activity {
         l.setItemsCanFocus(true);
     }
     
+    /**
+     * (non-Javadoc)
+     * @see android.app.Activity#onStart()
+     */
     protected void onStart(){
         super.onStart();
 
     }
     
+    /**
+     * (non-Javadoc)
+     * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -85,6 +99,10 @@ public class DelegatorActivity extends Activity {
         //super.onListItemClick(l, v, position, id);
     }
     
+    /**
+     * (non-Javadoc)
+     * @see android.app.Activity#onCreateContextMenu(android.view.ContextMenu, android.view.View, android.view.ContextMenu.ContextMenuInfo)
+     */
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v,
                                     ContextMenuInfo menuInfo) {
@@ -95,7 +113,10 @@ public class DelegatorActivity extends Activity {
         lastMenuView = v; 
     }
     
-    
+    /**
+     * (non-Javadoc)
+     * @see android.app.Activity#onContextItemSelected(android.view.MenuItem)
+     */
     @Override
     public boolean onContextItemSelected(MenuItem item){
         //Save this if bug #7139 ever is resolved
@@ -161,7 +182,7 @@ public class DelegatorActivity extends Activity {
         switch (item.getItemId()) {
             case R.id.bar_menu_add:
                 Intent i = new Intent(getBaseContext(), AddActivity.class);
-                startActivityForResult(i, 3); //TODO Actually getting the result...
+                startActivityForResult(i, ADD_TASK); 
                 adapter.notifyDataSetChanged();
                 return true;
             case R.id.bar_menu_clear:
@@ -169,14 +190,44 @@ public class DelegatorActivity extends Activity {
                 clearTasks();
                 return true;
             case R.id.bar_menu_settings:
+                Toast.makeText(this.getBaseContext(), "Not implemented yet", Toast.LENGTH_SHORT).show();
                 // TODO start SettingsActivity
                 return true;
             case R.id.bar_menu_share:
+                Toast.makeText(this.getBaseContext(), "Not implemented yet", Toast.LENGTH_SHORT).show();
                 // TODO start BatchShareActivity?
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+    
+    /**
+     * (non-Javadoc)
+     * @see android.app.Activity#onActivityResult(int, int, android.content.Intent)
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        switch (requestCode){
+        case ADD_TASK: //If AddActivity has returned result
+            if (resultCode == RESULT_CANCELED){
+                Toast.makeText(this.getBaseContext(), "RESULT_CANCELED", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                
+                Task t = new Task(data.getStringExtra("TITLE"), localUser);
+                t.description = data.getStringExtra("DESCRIPTION");
+                t.estimatedTime = data.getIntExtra("ESTIMATED_TIME", 0);
+                long l = data.getLongExtra("DATE", 0);
+                if (l != 0){
+                    t.deadline = new Date(l);
+                }
+                int pos = data.getIntExtra("CATEGORY_POS", -1);
+                adapter.insert(t, pos + 1);
+            }
+            break;
+        }
+        
     }
     
     /**
@@ -196,7 +247,10 @@ public class DelegatorActivity extends Activity {
             vi = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }
 
-
+        /**
+         * (non-Javadoc)
+         * @see android.widget.ArrayAdapter#getView(int, android.view.View, android.view.ViewGroup)
+         */
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             View v = convertView;

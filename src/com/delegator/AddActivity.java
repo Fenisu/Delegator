@@ -49,8 +49,7 @@ public class AddActivity extends Activity {
     private ArrayList<Item> shortItems = DelegatorActivity.items;
     private ArrayList<Integer> categoryPositions = new ArrayList<Integer>();
     private Task currentTask;
-    private int chosenCategoryPos;
-    private boolean wantToSave = false;
+    private int chosenCategoryPos = -1;
     private boolean dateChanged = false;
     
 	private Button mPickTime;
@@ -111,6 +110,7 @@ public class AddActivity extends Activity {
  		// get the current time and save it as default settings
      	// and as min date allowed
  		final Calendar c = Calendar.getInstance();
+ 		//TODO get rid of date fields as member variables
  		mYear = c.get(Calendar.YEAR);
         mMonth = c.get(Calendar.MONTH);
         mDay = c.get(Calendar.DAY_OF_MONTH);
@@ -135,15 +135,33 @@ public class AddActivity extends Activity {
     	int id = v.getId();
     	switch (id){
     	case R.id.add_view_save:
-    		wantToSave = true;
+    		//wantToSave = true;
+            String title = ((EditText)findViewById(R.id.add_view_title)).getText().toString();
+            String description = ((EditText)findViewById(R.id.add_view_descr)).getText().toString();
+            String estimatedTime = ((EditText)findViewById(R.id.add_view_estimate)).getText().toString();
+
+            if (!title.isEmpty()){
+                Intent i = this.getIntent();
+                i.putExtra("TITLE", title);
+                i.putExtra("DESCRIPTION", description);
+                if (!estimatedTime.isEmpty()){
+                    i.putExtra("ESTIMATED_TIME", Integer.parseInt(estimatedTime));
+                }
+                i.putExtra("CATEGORY_POS", chosenCategoryPos);
+                if (dateChanged){
+                    i.putExtra("DATE", chosenDate.getTime());
+                }
+                setResult(RESULT_OK, i);
+            }
+            else {
+                setResult(RESULT_CANCELED);
+            }
     		finish();
     		break;
     	case R.id.add_view_cancel:
-    		wantToSave = false;
     		finish();
     		break;
     	default:
-    		wantToSave = false;
     		finish();
     	} 				 			
     }
@@ -151,28 +169,17 @@ public class AddActivity extends Activity {
     @Override
     public void onDestroy(){
     	super.onDestroy();
-    	if (isFinishing() && wantToSave){
-    		String title = ((EditText)findViewById(R.id.add_view_title)).getText().toString();
-    		String description = ((EditText)findViewById(R.id.add_view_descr)).getText().toString();
-    		String estimatedTime = ((EditText)findViewById(R.id.add_view_estimate)).getText().toString();
-    		int estTime = Integer.parseInt(estimatedTime);
-    		if (title != null){
-    			Intent i = this.getIntent();
-    			i.putExtra("TITLE", title);
-    			i.putExtra("DESCRIPTION", description);
-    			i.putExtra("ESTIMATED_TIME", estTime);
-    			
-	        	if (dateChanged){
-		        	i.putExtra("DATE", chosenDate.getTime());
-		        }
-		        //TODO Actually sending back the result...
-	       	}
+    	if (isFinishing() ){
+
+    	}
+    	else {
+            setResult(RESULT_CANCELED);
     	}
     }
     
     /**
      * Object to JSON Object
-     * 
+     * TODO move all JSON related stuff to separate class
      * @author NNMN
      */
     private String writeJSON(){
@@ -339,7 +346,7 @@ public class AddActivity extends Activity {
         @Override
         public void onItemSelected(AdapterView<?> arg0, View arg1, int pos,
                 long id) {
-            chosenCategoryPos = pos;
+            chosenCategoryPos = categoryPositions.get(pos).intValue();
         }
         
         /**
