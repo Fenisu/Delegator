@@ -186,12 +186,13 @@ public class AddActivity extends Activity {
     		listToObject.add(0);
     		taskToFile.put("collaboratorTime", listToObject);
     		listToObject.clear();
-    		listToObject.add(localUser.email);
+    		listToObject.add(DelegatorActivity.localUser.email);
     		taskToFile.put("collaborator", listToObject);
     		return taskToFile.toString();
     	} catch (JSONException e) {
     		e.printStackTrace();
     	}
+    	return null; //TODO return a sane string
     }
     
     /**
