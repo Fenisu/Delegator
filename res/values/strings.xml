@@ -2,8 +2,10 @@
 <resources>
     <string name="app_name">Delegator</string>
     <string name="list_item_task_button_title">Start Timer</string>
+    <string name="list_item_task_progress_prefix">Progress: </string>
     <string name="list_item_menu_finished_title">Mark as finished</string>
     <string name="list_item_menu_remove_title">Remove</string>
+
     
     <!-- Values for options menu or action bar -->
     <string name="bar_menu_add">Add</string>
@@ -22,7 +24,13 @@
     
     <!-- Values for TimerActivity view -->
     <string name="pause_button_text">Pause</string>
+    <string name="resume_button_text">Resume</string>
     <string name="forfeit_button_text">Forfeit</string>
     <string name="stop_button_text">Stop</string>
+    <string name="timer_dialog_save_title">Do you want to save your progress?</string>
+    
+    <!-- General values -->
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
     
 </resources>

@@ -62,7 +62,10 @@ public class Clock {
 	}
 
 	public int getElapsedTime() {
-		return Math.abs(targetTime - minutes - hours*60);
+	    if (ASCENDING){
+	        return hours*60 + minutes;
+	    }
+	    return (targetTime*60 - hours*3600 - minutes*60 - seconds)/60;
 	}
 
 }

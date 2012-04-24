@@ -13,7 +13,7 @@ public class Task implements Item{
     public String description;
     Date deadline;
     private ArrayList<Collaborator> collaborators = new ArrayList<Collaborator>();
-    private int[] collaboratorTime;
+    private int[] collaboratorTime = new int[1];
     boolean finished = false;
 	public int estimatedTime;
     

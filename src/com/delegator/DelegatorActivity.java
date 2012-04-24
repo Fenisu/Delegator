@@ -1,5 +1,6 @@
 package com.delegator;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -167,6 +168,7 @@ public class DelegatorActivity extends Activity {
     	Intent i = new Intent(getBaseContext(), TimerActivity.class);
     	i.putExtra(LIST_POSITION, pos);
     	startActivity(i);
+    	adapter.notifyDataSetChanged();
     }
     
     
@@ -278,10 +280,16 @@ public class DelegatorActivity extends Activity {
                     registerForContextMenu(v); 
                     
                     final TextView title = (TextView)v.findViewById(R.id.list_item_task_title);
+                    final TextView descr = (TextView)v.findViewById(R.id.list_item_task_descr);
+                    final TextView progress = (TextView)v.findViewById(R.id.list_item_task_progress);
                     final Button button = (Button)v.findViewById(R.id.list_item_task_button);
-                    if (title != null){
-                        title.setText((ei.title));      
-                    }
+               
+                    title.setText((ei.title));  
+                    descr.setText(ei.description);
+                    DecimalFormat df = new DecimalFormat("#.##");
+                    progress.setText(getString(R.string.list_item_task_progress_prefix) + " " +
+                                     df.format(((double) ei.getTotalMinutes()* 100 / ei.estimatedTime)) + "%");
+                
                     if (ei.finished){
                         title.setPaintFlags(title.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG); //ugly
                         v.setBackgroundColor(Color.DKGRAY);
