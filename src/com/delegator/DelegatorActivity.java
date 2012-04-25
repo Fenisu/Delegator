@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 
+
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -18,7 +20,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -30,8 +35,9 @@ public class DelegatorActivity extends Activity {
     public static ArrayList<Item> items = new ArrayList<Item>();
     public final static Collaborator localUser = new Collaborator("Adam Johansson", "luceatadam@gmail.com", "+46736001187");
     private static final int ADD_TASK = 128;
+    public static final int EDIT_TASK = 129;
     private static final boolean FIRST_RUN = true;
-    //public ArrayList<Item> items = new ArrayList<Item>();
+    
     ListView l;
     public TaskAdapter adapter;
     //Workaround for bug #7139 remembers the item# of listview
@@ -67,10 +73,15 @@ public class DelegatorActivity extends Activity {
      * (non-Javadoc)
      * @see android.app.Activity#onStart()
      */
-    protected void onStart(){
+    public void onStart(){
         super.onStart();
 
     }
+    
+    public void onResume(){
+        super.onResume();
+    }
+    
     
     /**
      * (non-Javadoc)
@@ -81,23 +92,6 @@ public class DelegatorActivity extends Activity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.bar_menu, menu);
         return true;
-    }
-    
-    
-    //Might be broken.
-    protected void onListItemClick(ListView l, View v, int position, long id) {
-
-        
-        if(items.get(position).isCategory()){
-            // TODO Allow here to change name of category
-        }
-        else{ //Must be a Task item
-            
-            Task item = (Task)items.get(position);
-            // TODO Do something when a task is clicked in list        
-        }
-        
-        //super.onListItemClick(l, v, position, id);
     }
     
     /**
@@ -158,21 +152,6 @@ public class DelegatorActivity extends Activity {
     }
     
     /**
-     * Handles a click on a "Show timer" button
-     * 
-     * @param v the view (button) being clicked
-     */
-    public void timerClickHandler(View v){
-    	//Position in ListView of button being clicked
-    	int pos = ((ListView)(v.getParent().getParent().getParent())).getPositionForView(v);
-    	Intent i = new Intent(getBaseContext(), TimerActivity.class);
-    	i.putExtra(LIST_POSITION, pos);
-    	startActivity(i);
-    	adapter.notifyDataSetChanged();
-    }
-    
-    
-    /**
      * What to do when an options item has been clicked
      * (These are defined in bar_menu)
      * 
@@ -216,7 +195,6 @@ public class DelegatorActivity extends Activity {
                 Toast.makeText(this.getBaseContext(), "RESULT_CANCELED", Toast.LENGTH_SHORT).show();
             }
             else {
-                
                 Task t = new Task(data.getStringExtra("TITLE"), localUser);
                 t.description = data.getStringExtra("DESCRIPTION");
                 t.estimatedTime = data.getIntExtra("ESTIMATED_TIME", 0);
@@ -228,17 +206,18 @@ public class DelegatorActivity extends Activity {
                 adapter.insert(t, pos + 1);
             }
             break;
+
         }
         
     }
     
     /**
      * Assists in population of listview with
-     * items (Tasks and CategoryItems)
+     * items (Tasks and CategoryItems) also handles clicks
      * @author Luceat
      *
      */
-    public class TaskAdapter extends ArrayAdapter<Item> {
+    public class TaskAdapter extends ArrayAdapter<Item> implements OnClickListener{
 
         private ArrayList<Item> items;
         private LayoutInflater vi;
@@ -263,9 +242,12 @@ public class DelegatorActivity extends Activity {
                     CategoryItem si = (CategoryItem)i;
                     v = vi.inflate(R.layout.list_item_category, null);
 
-                    v.setOnClickListener(null);
+                    //v.setOnClickListener(((ListView)v.getParent()).getOnItemClickListener());
                     v.setOnLongClickListener(null);
                     v.setLongClickable(false);
+                    v.setClickable(true);
+                    v.setFocusable(true);
+                    v.setOnClickListener(this);
                     
                     final TextView sectionView = (TextView) v.findViewById(R.id.list_item_category_text);
                     sectionView.setText(si.title);
@@ -274,8 +256,9 @@ public class DelegatorActivity extends Activity {
                     v = vi.inflate(R.layout.list_item_task, null);
                     v.setClickable(true); 
                     v.setFocusable(true); 
+                    v.setOnClickListener(this);
                     v.setBackgroundResource(android.R.drawable.menuitem_background); 
-                    
+
                     //Makes this item a candidate for longclick menu
                     registerForContextMenu(v); 
                     
@@ -298,6 +281,8 @@ public class DelegatorActivity extends Activity {
                     
                     //if (preferences.getBoolean("HIDE_TIMER_BUTTON", true)){
                     button.setText("Start timer");
+                    button.setFocusable(false);
+                    button.setOnClickListener(this);
                     /*}
                     else {
                         button.setVisibility(0);
@@ -305,6 +290,39 @@ public class DelegatorActivity extends Activity {
                 }
             }
             return v;
+        }
+
+        @Override
+        public void onClick(View v) {
+            ListView parent;
+            if (v instanceof Button){
+                parent = (ListView)v.getParent().getParent().getParent();
+            }
+            else{
+                parent = (ListView)v.getParent();
+            }
+            int position = parent.getPositionForView(v);
+            Item i = items.get(position);
+            if (i.isCategory()){
+                Toast.makeText(getApplicationContext(), "Is a category", Toast.LENGTH_SHORT).show();
+                //TODO Add Category collapse here
+            }
+            else {
+                if (v instanceof Button){
+                    Intent intent = new Intent(getApplicationContext(), TimerActivity.class);
+                    intent.putExtra(LIST_POSITION, position);
+                    startActivity(intent);
+                    adapter.notifyDataSetChanged();
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), "Is a task", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getApplicationContext(), TaskActivity.class);
+                    intent.putExtra(LIST_POSITION, position);
+                    startActivity(intent);
+                    
+                }
+            }
+            
         }
     }
 }

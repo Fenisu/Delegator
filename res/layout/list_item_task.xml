@@ -26,8 +26,7 @@
     		android:layout_centerVertical="true"
     		android:layout_alignParentRight="true"
     	
-    		android:text="@string/list_item_task_button_title" 
-    		android:onClick="timerClickHandler"/> 
+    		android:text="@string/list_item_task_button_title" /> 
  		<TextView android:id="@+id/list_item_task_descr"
 			android:layout_width="fill_parent"
             android:layout_height="wrap_content"

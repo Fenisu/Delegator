@@ -22,6 +22,13 @@
     <string name="add_view_text_sharecontacts">Share task:</string>  
     <string name="add_view_text_wrong_date">Back to the Future?</string>
     
+    <!-- Values for TaskActivity view -->
+	<string name="taskview_edit_button_text">Edit</string>
+	<string name="taskview_no_deadline_text">No deadline set</string>
+	<string name="taskview_text_description">Description:</string>
+	<string name="taskview_text_deadline">Deadline:</string>
+	
+	    
     <!-- Values for TimerActivity view -->
     <string name="pause_button_text">Pause</string>
     <string name="resume_button_text">Resume</string>
