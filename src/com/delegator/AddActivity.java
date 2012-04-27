@@ -169,11 +169,24 @@ public class AddActivity extends Activity {
 					FileReader fileIn = new FileReader(getExternalFilesDir(null) + "/data.json");
 					JSONObject obj = InOutHelper.loadJSON(fileIn);
 					fileIn.close();
+
 					FileWriter fileOut = new FileWriter(getExternalFilesDir(null) + "/data.json");
 					InOutHelper.writeJSON(currentTask, fileOut, obj );
 					
 					fileOut.close();
 				} catch (IOException e) {
+					JSONObject obj = new JSONObject();
+					FileWriter fileOut;
+					try {
+						fileOut = new FileWriter(getExternalFilesDir(null) + "/data.json");
+						InOutHelper.writeJSON(currentTask, fileOut, obj );
+						
+						fileOut.close();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
