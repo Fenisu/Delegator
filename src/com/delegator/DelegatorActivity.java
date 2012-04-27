@@ -55,15 +55,6 @@ public class DelegatorActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         if (FIRST_RUN){
-            items.add(new CategoryItem("Category 1"));
-            Task t = new Task("Example task", localUser);
-            t.description = "This is an example description";
-            t.estimatedTime = 120;
-            items.add(t);
-            
-            items.add(new CategoryItem("Category 2"));
-            
-            items.add(new CategoryItem("Category 3"));
             items = new ArrayList<Item>();
             try {
 				FileReader file = new FileReader(getExternalFilesDir(null) + "/data.json");
