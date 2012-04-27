@@ -9,13 +9,14 @@ import java.util.Date;
  *
  */
 public class Task implements Item{
-    public final String title;
+    public String title;
     public String description;
     Date deadline;
     private ArrayList<Collaborator> collaborators = new ArrayList<Collaborator>();
-    private int[] collaboratorTime = new int[1];
+    public int[] collaboratorTime = new int[1];
     boolean finished = false;
 	public int estimatedTime;
+    public int category;
     
     public Task(String title, Collaborator owner){
         this.title = title;
@@ -53,10 +54,11 @@ public class Task implements Item{
     public void addProgress(int progress, Collaborator collaborator){
     	int pos = collaborators.indexOf(collaborator);
     	collaboratorTime[pos] += progress;
-    }
-
-
- 
+    }  
     
+    public String toString() {
+    	String s = "Title: " + title + ", description: " + description + ", estimatedTime: " + estimatedTime + ".";
+    	return s;
+    }
 
 }

@@ -1,6 +1,10 @@
 package com.delegator;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.StringWriter;
@@ -10,7 +14,7 @@ import java.util.Date;
 import java.util.LinkedList;
 
 import org.json.JSONException;
-import org.json.JSONObject;
+import org.json.simple.JSONObject;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -19,6 +23,7 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -146,6 +151,40 @@ public class AddActivity extends Activity {
                 if (dateChanged){
                     i.putExtra("DATE", chosenDate.getTime());
                 }
+                currentTask = new Task(title,DelegatorActivity.localUser);
+                currentTask.description = description;
+                currentTask.estimatedTime = Integer.parseInt(estimatedTime);
+                currentTask.deadline = chosenDate;
+                currentTask.category = chosenCategoryPos;
+                //Log.w("AddTask", "" + chosenDate.getDate());
+                
+                try {
+					
+					FileReader fileIn = new FileReader(getExternalFilesDir(null) + "/data.json");
+					JSONObject obj = InOutHelper.loadJSON(fileIn);
+					fileIn.close();
+					FileWriter fileOut = new FileWriter(getExternalFilesDir(null) + "/data.json");
+					InOutHelper.writeJSON(currentTask, fileOut, obj );
+					
+					fileOut.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+                
+                
+				
+                
+                /*
+                File file = new File(getExternalFilesDir(null), "data.json");
+                String sToSave = jsonHelper.writeJSON(currentTask);
+                if(sToSave != null) {
+                	jsonHelper.saveFile(sToSave,file);
+                } else {
+                	Toast.makeText(AddActivity.this,"MEH", Toast.LENGTH_SHORT).show();
+                }
+                */
+                
                 setResult(RESULT_OK, i);
             }
             else {
@@ -171,52 +210,7 @@ public class AddActivity extends Activity {
             setResult(RESULT_CANCELED);
     	}
     }
-    
-    /**
-     * Object to JSON Object
-     * TODO move all JSON related stuff to separate class
-     * @author NNMN
-     */
-    private String writeJSON(){
-    	JSONObject taskToFile = new JSONObject();
-    	LinkedList<Comparable> listToObject = new LinkedList();
-    	StringWriter out = new StringWriter();
-    	try {
-    		taskToFile.put("title", currentTask.title);
-    		taskToFile.put("description", currentTask.description);
-    		taskToFile.put("deadline", currentTask.deadline);
-    		listToObject.add(0);
-    		taskToFile.put("collaboratorTime", listToObject);
-    		listToObject.clear();
-    		listToObject.add(DelegatorActivity.localUser.email);
-    		taskToFile.put("collaborator", listToObject);
-    		return taskToFile.toString();
-    	} catch (JSONException e) {
-    		e.printStackTrace();
-    	}
-    	return null; //TODO return a sane string
-    }
-    
-    /**
-     * Save JSON Object formatted Task to file.
-     * This would save the file in:
-     * /data/data/com.delegator/files/
-     * 
-     * @author NoNaMeNo
-     */
-    private void saveFile(String taskToFile){
-        try {            
-            FileOutputStream fOut = openFileOutput("data.json",
-                                                    MODE_WORLD_READABLE);
-            OutputStreamWriter osw = new OutputStreamWriter(fOut);
-            
-            osw.write(taskToFile);
-            osw.flush();
-            osw.close();
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
-    }
+
     
     /**
      * Searches the items arraylist for CategoryItems and
