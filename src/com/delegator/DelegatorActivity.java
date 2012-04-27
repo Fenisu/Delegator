@@ -1,9 +1,18 @@
 package com.delegator;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
+
+import org.json.JSONException;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.ParseException;
 
 
 
@@ -13,6 +22,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -51,15 +61,24 @@ public class DelegatorActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         if (FIRST_RUN){
-            items.add(new CategoryItem("Category 1"));
-            Task t = new Task("Example task", localUser);
-            t.description = "This is an example description";
-            t.estimatedTime = 120;
-            items.add(t);
-            
-            items.add(new CategoryItem("Category 2"));
-            
-            items.add(new CategoryItem("Category 3"));
+            items = new ArrayList<Item>();
+            try {
+				FileReader file = new FileReader(getExternalFilesDir(null) + "/data.json");
+				//JSONObject obj = InOutHelper.loadJSON(file);
+				//if( obj != null) {
+				List<Task> taskList = InOutHelper.loadToTask(file);
+				for(Task taskItem : taskList) {
+					items.add(taskItem);
+				}
+				file.close();
+				
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
         }
         
         adapter = new TaskAdapter(this, items);
@@ -67,6 +86,7 @@ public class DelegatorActivity extends Activity {
         l = (ListView) findViewById(R.id.list);
         l.setAdapter(adapter);
         l.setItemsCanFocus(true);
+        
     }
     
     /**
@@ -119,14 +139,18 @@ public class DelegatorActivity extends Activity {
         //This is the workaround...
         ListView parent = (ListView)lastMenuView.getParent();
         int pos = (int)parent.getPositionForView(lastMenuView);
-
+        String filePath;
         switch (item.getItemId()) {
             case R.id.list_item_menu_finished:
-                ((Task) items.get(pos)).finished = true;       
+                ((Task) items.get(pos)).finished = true;    
+                filePath = getExternalFilesDir(null) + "/data.json";
+                InOutHelper.updateJSON((Task) items.get(pos), filePath);
                 adapter.notifyDataSetChanged();
                 return true;
             case R.id.list_item_menu_remove:
-                adapter.remove(items.get(pos));            
+            	filePath = getExternalFilesDir(null) + "/data.json";
+            	InOutHelper.removeJSON((Task) items.get(pos), filePath);
+                adapter.remove(items.get(pos)); 
                 return true;
             default:
                 return super.onContextItemSelected(item);
@@ -145,6 +169,8 @@ public class DelegatorActivity extends Activity {
             if (!i.isCategory()){
                 Task t = (Task) i;
                 if(t.finished){
+                	String filePath = getExternalFilesDir(null) + "/data.json";
+                	InOutHelper.removeJSON(t, filePath);
                     adapter.remove(i);
                 }
             }

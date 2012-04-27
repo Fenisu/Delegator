@@ -35,7 +35,9 @@ public class TimerActivity extends Activity {
 	public void onDestroy(){
 		if (isFinishing()){
 			if (!forfeit){
-				currentTask.addProgress(clockHelper.getElapsedTime(), DelegatorActivity.localUser); 
+				currentTask.addProgress(clockHelper.getElapsedTime(), DelegatorActivity.localUser);
+				String filePath = getExternalFilesDir(null) + "/data.json";
+				InOutHelper.updateJSON(currentTask, filePath);
 			}
 		}
 	      super.onDestroy();
