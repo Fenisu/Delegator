@@ -146,14 +146,20 @@ public class AddActivity extends Activity {
                 i.putExtra("DESCRIPTION", description);
                 if (!estimatedTime.isEmpty()){
                     i.putExtra("ESTIMATED_TIME", Integer.parseInt(estimatedTime));
+                } else {
+                	i.putExtra("ESTIMATED_TIME", 1);
                 }
+                	
                 i.putExtra("CATEGORY_POS", chosenCategoryPos);
                 if (dateChanged){
                     i.putExtra("DATE", chosenDate.getTime());
                 }
                 currentTask = new Task(title,DelegatorActivity.localUser);
                 currentTask.description = description;
-                currentTask.estimatedTime = Integer.parseInt(estimatedTime);
+                if(!estimatedTime.isEmpty())
+                	currentTask.estimatedTime = Integer.parseInt(estimatedTime);
+                else
+                	currentTask.estimatedTime = 1;
                 currentTask.deadline = chosenDate;
                 currentTask.category = chosenCategoryPos;
                 //Log.w("AddTask", "" + chosenDate.getDate());

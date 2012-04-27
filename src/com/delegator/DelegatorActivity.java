@@ -64,6 +64,7 @@ public class DelegatorActivity extends Activity {
             items.add(new CategoryItem("Category 2"));
             
             items.add(new CategoryItem("Category 3"));
+            items = new ArrayList<Item>();
             try {
 				FileReader file = new FileReader(getExternalFilesDir(null) + "/data.json");
 				//JSONObject obj = InOutHelper.loadJSON(file);
@@ -88,6 +89,7 @@ public class DelegatorActivity extends Activity {
         l = (ListView) findViewById(R.id.list);
         l.setAdapter(adapter);
         l.setItemsCanFocus(true);
+        
     }
     
     /**
@@ -152,14 +154,18 @@ public class DelegatorActivity extends Activity {
         //This is the workaround...
         ListView parent = (ListView)lastMenuView.getParent();
         int pos = (int)parent.getPositionForView(lastMenuView);
-
+        String filePath;
         switch (item.getItemId()) {
             case R.id.list_item_menu_finished:
-                ((Task) items.get(pos)).finished = true;       
+                ((Task) items.get(pos)).finished = true;    
+                filePath = getExternalFilesDir(null) + "/data.json";
+                InOutHelper.updateJSON((Task) items.get(pos), filePath);
                 adapter.notifyDataSetChanged();
                 return true;
             case R.id.list_item_menu_remove:
-                adapter.remove(items.get(pos));            
+            	filePath = getExternalFilesDir(null) + "/data.json";
+            	InOutHelper.removeJSON((Task) items.get(pos), filePath);
+                adapter.remove(items.get(pos)); 
                 return true;
             default:
                 return super.onContextItemSelected(item);
@@ -178,6 +184,8 @@ public class DelegatorActivity extends Activity {
             if (!i.isCategory()){
                 Task t = (Task) i;
                 if(t.finished){
+                	String filePath = getExternalFilesDir(null) + "/data.json";
+                	InOutHelper.removeJSON(t, filePath);
                     adapter.remove(i);
                 }
             }
