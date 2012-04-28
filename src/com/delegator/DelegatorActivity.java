@@ -1,18 +1,10 @@
 package com.delegator;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-
-import org.json.JSONException;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.ParseException;
 
 import android.app.Activity;
 import android.content.Context;
@@ -20,7 +12,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -56,22 +47,10 @@ public class DelegatorActivity extends Activity {
         setContentView(R.layout.main);
         if (FIRST_RUN){
             items = new ArrayList<Item>();
-            try {
-				FileReader file = new FileReader(getExternalFilesDir(null) + "/data.json");
-				//JSONObject obj = InOutHelper.loadJSON(file);
-				//if( obj != null) {
-				List<Task> taskList = InOutHelper.loadToTask(file);
-				for(Task taskItem : taskList) {
-					items.add(taskItem);
-				}
-				file.close();
-				
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+
+			List<Task> taskList = InOutHelper.loadToTask(getExternalFilesDir(null) + "/data.json");
+			for(Task taskItem : taskList) {
+				items.add(taskItem);
 			}
         }
         
