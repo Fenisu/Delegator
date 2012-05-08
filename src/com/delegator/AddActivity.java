@@ -163,7 +163,7 @@ public class AddActivity extends Activity {
                 currentTask.deadline = chosenDate;
                 currentTask.category = chosenCategoryPos;
                 
-                InOutHelper.writeJSON(currentTask, getExternalFilesDir(null) + "/data.json");                
+                InOutHelper.writeJSON(currentTask);                
                 setResult(RESULT_OK, i);
             }
             else {

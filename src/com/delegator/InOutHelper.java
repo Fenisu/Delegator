@@ -63,16 +63,7 @@ public class InOutHelper {
 		
 		tasksToFile.put("tasks", jsonTasksObject);
 		Log.w("WriteJSON", "meta JSON String created");
-		JSON2File(tasksToFile.toJSONString());
-		try {
-			FileWriter fileOut = new FileWriter(file);
-			fileOut.write(tasksToFile.toJSONString());
-			fileOut.flush();
-			fileOut.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		JSON2File(tasksToFile);
 		Log.w("WriteJSON", "JSON file saved");
 		///Log.w("WriteJSON", taskToFile.toString());
 		//return taskToFile.toString();
