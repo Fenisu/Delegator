@@ -1,6 +1,8 @@
 package com.delegator;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -12,18 +14,24 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import android.content.Context;
+import android.content.ContextWrapper;
+import android.os.Environment;
 import android.util.Log;
 
 public class InOutHelper {
-	static String file = "data.json";
+	static String file; // = ContextWrapper.getFilesDir(); // new File(Environment.getDataDirectory(), "/data.json"); // getDataDirectory() + "data.json";
 	
+	public static void jsonSetContext(Context c){
+		file = c.getFilesDir() + "/data.json";
+	}
 	/**
      * Object to JSON Object
      * TODO private String writeJSON(List<Task> taskList)
      * @author NNMN
      */
 	public static void writeJSON(Task currentTask){
-		JSONObject loadedFile = (JSONObject) loadJSON(file);
+		JSONObject loadedFile = (JSONObject) loadJSON();
 		 
     	JSONObject taskToFile = new JSONObject();
     	JSONArray list1 = new JSONArray();
@@ -72,7 +80,7 @@ public class InOutHelper {
 	
 	
 	
-	static JSONObject loadJSON(String file) {
+	static JSONObject loadJSON() {
 		try {
 			FileReader fileIn = new FileReader(file);
 			JSONParser parser = new JSONParser();
@@ -106,24 +114,29 @@ public class InOutHelper {
 
 	public static List<Task> loadToTask() {
 		JSONObject json = File2JSON();
-		JSONObject jsonTasksObject = (JSONObject) json.get("tasks");
-		Log.w("Load2TaskLOOP", jsonTasksObject.toString());
-		
-		List<Task> taskList = new ArrayList<Task>();
-		for (int i = 1; i <= jsonTasksObject.size(); i++) {
-			JSONObject obj = (JSONObject) jsonTasksObject.get("task" + i);
-			Task t = new Task(obj.get("title").toString(), DelegatorActivity.localUser);
-			t.description = obj.get("description").toString();
-			t.estimatedTime = Integer.parseInt(obj.get("estimatedTime").toString());
-			t.category = Integer.parseInt(obj.get("category").toString());
-			t.finished = Boolean.parseBoolean(obj.get("category").toString());
-			String delims = "[\\[\\]]";
-			int[] colT = {Integer.parseInt(obj.get("collaboratorTime").toString().split(delims)[1])};
-			t.collaboratorTime = colT;
-
-			taskList.add(t);
+		try {
+			JSONObject jsonTasksObject = (JSONObject) json.get("tasks");
+			Log.w("Load2TaskLOOP", jsonTasksObject.toString());
+			
+			List<Task> taskList = new ArrayList<Task>();
+			for (int i = 1; i <= jsonTasksObject.size(); i++) {
+				JSONObject obj = (JSONObject) jsonTasksObject.get("task" + i);
+				Task t = new Task(obj.get("title").toString(), DelegatorActivity.localUser);
+				t.description = obj.get("description").toString();
+				t.estimatedTime = Integer.parseInt(obj.get("estimatedTime").toString());
+				t.category = Integer.parseInt(obj.get("category").toString());
+				t.finished = Boolean.parseBoolean(obj.get("category").toString());
+				String delims = "[\\[\\]]";
+				int[] colT = {Integer.parseInt(obj.get("collaboratorTime").toString().split(delims)[1])};
+				t.collaboratorTime = colT;
+	
+				taskList.add(t);
+			}
+			return taskList;
+		} catch(NullPointerException e) {
+			e.printStackTrace();
+			return null;
 		}
-		return taskList;
 	}
 	
 
@@ -174,7 +187,7 @@ public class InOutHelper {
 		try {
 			
 			JSONObject newTasks = new JSONObject();
-			JSONObject tasks = (JSONObject) loadJSON(file).get("tasks");
+			JSONObject tasks = (JSONObject) loadJSON().get("tasks");
 			Log.w("updateJSON1", tasks.toJSONString());
 			int j = 1;
 			boolean found = false;
