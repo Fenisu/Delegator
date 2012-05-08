@@ -48,7 +48,7 @@ public class DelegatorActivity extends Activity {
         if (FIRST_RUN){
             items = new ArrayList<Item>();
 
-			List<Task> taskList = InOutHelper.loadToTask(getExternalFilesDir(null) + "/data.json");
+			List<Task> taskList = InOutHelper.loadToTask();
 			for(Task taskItem : taskList) {
 				items.add(taskItem);
 			}
@@ -128,13 +128,13 @@ public class DelegatorActivity extends Activity {
         switch (item.getItemId()) {
             case R.id.list_item_menu_finished:
                 ((Task) items.get(pos)).finished = true;    
-                filePath = getExternalFilesDir(null) + "/data.json";
-                InOutHelper.updateJSON((Task) items.get(pos), filePath);
+                
+                InOutHelper.updateJSON((Task) items.get(pos));
                 adapter.notifyDataSetChanged();
                 return true;
             case R.id.list_item_menu_remove:
-            	filePath = getExternalFilesDir(null) + "/data.json";
-            	InOutHelper.removeJSON((Task) items.get(pos), filePath);
+            	
+            	InOutHelper.removeJSON((Task) items.get(pos));
                 adapter.remove(items.get(pos)); 
                 return true;
             default:
@@ -155,7 +155,7 @@ public class DelegatorActivity extends Activity {
                 Task t = (Task) i;
                 if(t.finished){
                 	String filePath = getExternalFilesDir(null) + "/data.json";
-                	InOutHelper.removeJSON(t, filePath);
+                	InOutHelper.removeJSON(t);
                     adapter.remove(i);
                 }
             }

@@ -15,12 +15,14 @@ import org.json.simple.parser.ParseException;
 import android.util.Log;
 
 public class InOutHelper {
+	static String file = "data.json";
+	
 	/**
      * Object to JSON Object
      * TODO private String writeJSON(List<Task> taskList)
      * @author NNMN
      */
-	public static void writeJSON(Task currentTask, String file){
+	public static void writeJSON(Task currentTask){
 		JSONObject loadedFile = (JSONObject) loadJSON(file);
 		 
     	JSONObject taskToFile = new JSONObject();
@@ -44,7 +46,7 @@ public class InOutHelper {
 	
 		
 		Log.w("WriteJSON", "JSON Loaded");
-		int size;
+		
 		
 		if(loadedFile == null || loadedFile.get("tasks") == null) {
 			Log.w("WriteJSON", "No Old tasks");
@@ -54,13 +56,14 @@ public class InOutHelper {
 			Log.w("WriteJSON", "Adding tasks");
 			Object tasksObject = loadedFile.get("tasks");
 			jsonTasksObject = (JSONObject) tasksObject;
-			size = jsonTasksObject.size() + 1;
+			int size = jsonTasksObject.size() + 1;
 			jsonTasksObject.put("task" + size , taskToFile);
 		}
 		JSONObject tasksToFile = new JSONObject();
 		
 		tasksToFile.put("tasks", jsonTasksObject);
 		Log.w("WriteJSON", "meta JSON String created");
+		JSON2File(tasksToFile.toJSONString());
 		try {
 			FileWriter fileOut = new FileWriter(file);
 			fileOut.write(tasksToFile.toJSONString());
@@ -79,7 +82,6 @@ public class InOutHelper {
 	
 	
 	static JSONObject loadJSON(String file) {
-		
 		try {
 			FileReader fileIn = new FileReader(file);
 			JSONParser parser = new JSONParser();
@@ -111,8 +113,8 @@ public class InOutHelper {
 	
 
 
-	public static List<Task> loadToTask(String file) {
-		JSONObject json = File2JSON(file);
+	public static List<Task> loadToTask() {
+		JSONObject json = File2JSON();
 		JSONObject jsonTasksObject = (JSONObject) json.get("tasks");
 		Log.w("Load2TaskLOOP", jsonTasksObject.toString());
 		
@@ -134,10 +136,10 @@ public class InOutHelper {
 	}
 	
 
-	public static void removeJSON(Task currentTask, String file) {
+	public static void removeJSON(Task currentTask) {
 		
 		try {
-			JSONObject obj = File2JSON(file);
+			JSONObject obj = File2JSON();
 			JSONObject newTasks = new JSONObject();
 			JSONObject tasks = (JSONObject) obj.get("tasks");
 			
@@ -176,7 +178,7 @@ public class InOutHelper {
 		} 
 	}
 	
-	public static void updateJSON(Task currentTask, String file) {
+	public static void updateJSON(Task currentTask) {
 		
 		try {
 			
@@ -235,7 +237,7 @@ public class InOutHelper {
 		} 
 	}
 	
-	public static void JSON2File(String file, JSONObject json){
+	public static void JSON2File(JSONObject json){
 		try {
 			FileWriter fileOut = new FileWriter(file);
 			fileOut.write(json.toJSONString());
@@ -246,7 +248,7 @@ public class InOutHelper {
 		}
 	}
 
-	public static JSONObject File2JSON(String file) {
+	public static JSONObject File2JSON() {
 		try {
 			FileReader fileIn = new FileReader(file);
 			JSONParser parser = new JSONParser();
