@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -45,12 +46,15 @@ public class DelegatorActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        InOutHelper.jsonSetContext(getApplicationContext());
         if (FIRST_RUN){
             items = new ArrayList<Item>();
 
 			List<Task> taskList = InOutHelper.loadToTask();
-			for(Task taskItem : taskList) {
-				items.add(taskItem);
+			if(taskList != null) {
+				for(Task taskItem : taskList) {
+					items.add(taskItem);
+				}
 			}
         }
         
@@ -154,7 +158,6 @@ public class DelegatorActivity extends Activity {
             if (!i.isCategory()){
                 Task t = (Task) i;
                 if(t.finished){
-                	String filePath = getExternalFilesDir(null) + "/data.json";
                 	InOutHelper.removeJSON(t);
                     adapter.remove(i);
                 }
