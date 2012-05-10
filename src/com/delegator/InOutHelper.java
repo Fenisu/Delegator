@@ -1,8 +1,6 @@
 package com.delegator;
 
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -15,8 +13,6 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import android.content.Context;
-import android.content.ContextWrapper;
-import android.os.Environment;
 import android.util.Log;
 
 public class InOutHelper {
@@ -37,10 +33,10 @@ public class InOutHelper {
     	JSONArray list1 = new JSONArray();
     	JSONArray list2 = new JSONArray();
 
-		taskToFile.put("title", currentTask.title);
-		taskToFile.put("description", currentTask.description);
-		taskToFile.put("deadline", currentTask.deadline);
-		taskToFile.put("estimatedTime", currentTask.estimatedTime);
+		taskToFile.put("title", currentTask.getTitle());
+		taskToFile.put("description", currentTask.getDescription());
+		taskToFile.put("deadline", currentTask.getDeadline());
+		taskToFile.put("estimatedTime", currentTask.getEstimatedTime());
 		taskToFile.put("category", currentTask.category);
 		taskToFile.put("finished", currentTask.finished);
 		list1.add(0);
@@ -122,13 +118,13 @@ public class InOutHelper {
 			for (int i = 1; i <= jsonTasksObject.size(); i++) {
 				JSONObject obj = (JSONObject) jsonTasksObject.get("task" + i);
 				Task t = new Task(obj.get("title").toString(), DelegatorActivity.localUser);
-				t.description = obj.get("description").toString();
-				t.estimatedTime = Integer.parseInt(obj.get("estimatedTime").toString());
+				t.setDescription(obj.get("description").toString());
+				t.setEstimatedTime(Integer.parseInt(obj.get("estimatedTime").toString()));
 				t.category = Integer.parseInt(obj.get("category").toString());
 				t.finished = Boolean.parseBoolean(obj.get("category").toString());
 				String delims = "[\\[\\]]";
 				int[] colT = {Integer.parseInt(obj.get("collaboratorTime").toString().split(delims)[1])};
-				t.collaboratorTime = colT;
+				t.setCollaboratorTime(colT);
 	
 				taskList.add(t);
 			}
@@ -155,7 +151,7 @@ public class InOutHelper {
 				JSONObject item = (JSONObject) tasks.get("task" + i);
 				
 				String title = (String) item.get("title");
-				String titleT = currentTask.title;
+				String titleT = currentTask.getTitle();
 				
 				if (found){
 					obt = tasks.remove("task"+i);
@@ -197,7 +193,7 @@ public class InOutHelper {
 				JSONObject item = (JSONObject) tasks.get("task" + i);
 				Log.w("updateJSON2", item.toJSONString());
 				String title = (String) item.get("title");
-				String titleT = currentTask.title;
+				String titleT = currentTask.getTitle();
 				Log.w("updateJSON2a", title);
 				Log.w("updateJSON2b", titleT);
 				Object obt;
@@ -209,10 +205,10 @@ public class InOutHelper {
 					obt2.remove("estimatedTime");
 					obt2.remove("collaboratorTime");
 					obt2.put("finished", currentTask.finished);
-					obt2.put("description", currentTask.description);
-					obt2.put("estimatedTime", currentTask.estimatedTime);
+					obt2.put("description", currentTask.getDescription());
+					obt2.put("estimatedTime", currentTask.getEstimatedTime());
 					JSONArray list1 = new JSONArray();
-					list1.add(currentTask.collaboratorTime[0]);
+					list1.add(currentTask.getProgressOf("OWNER_CHANGE_THIS"));
 					obt2.put("collaboratorTime", list1);
 					
 					

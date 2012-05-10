@@ -9,14 +9,98 @@ import java.util.Date;
  *
  */
 public class Task implements Item{
-    public String title;
-    public String description;
-    Date deadline;
+    /**
+     * @return the title
+     */
+    public String getTitle() {
+        return title;
+    }
+
+    /**
+     * @param title the title to set
+     */
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    /**
+     * @return the description
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * @param description the description to set
+     */
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    /**
+     * @return the deadline
+     */
+    public Date getDeadline() {
+        return deadline;
+    }
+
+    /**
+     * @param deadline the deadline to set
+     */
+    public void setDeadline(Date deadline) {
+        this.deadline = deadline;
+    }
+
+    /**
+     * @return the finished
+     */
+    public boolean isFinished() {
+        return finished;
+    }
+
+    /**
+     * @param finished the finished to set
+     */
+    public void setFinished(boolean finished) {
+        this.finished = finished;
+    }
+
+    /**
+     * @return the estimatedTime
+     */
+    public int getEstimatedTime() {
+        return estimatedTime;
+    }
+
+    /**
+     * @param estimatedTime the estimatedTime to set
+     */
+    public void setEstimatedTime(int estimatedTime) {
+        this.estimatedTime = estimatedTime;
+    }
+    
+    /**
+     * @return an array storing collaborators spent time
+     */
+    public int[] getCollaboratorTime(){
+        return collaboratorTime.clone();
+    }
+    
+    /**
+     * @param newCollaboratorTime the new array for collaborators spent time
+     */
+    public void setCollaboratorTime(int[] newCollaboratorTime) {
+        collaboratorTime = newCollaboratorTime;
+    }
+
+    private String title;
+    private String description;
+    private Date deadline;
     private ArrayList<Collaborator> collaborators = new ArrayList<Collaborator>();
-    public int[] collaboratorTime = new int[1];
+    private int[] collaboratorTime = new int[1];
     boolean finished = false;
-	public int estimatedTime;
-    public int category;
+	private int estimatedTime;
+    public int category; //UNUSED
     
     public Task(String title, Collaborator owner){
         this.title = title;
@@ -54,11 +138,23 @@ public class Task implements Item{
     public void addProgress(int progress, Collaborator collaborator){
     	int pos = collaborators.indexOf(collaborator);
     	collaboratorTime[pos] += progress;
-    }  
+    }
+    
+    /**
+     * Gets the progress of Collaborator c.
+     * 
+     * @param c the collaborator you want the progress of
+     */
+    public int getProgressOf(String collaborator){
+        //TODO Make sane method
+        return collaboratorTime[0];
+    }
     
     public String toString() {
     	String s = "Title: " + title + ", description: " + description + ", estimatedTime: " + estimatedTime + ".";
     	return s;
     }
+
+
 
 }

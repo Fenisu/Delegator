@@ -21,13 +21,13 @@ public class TaskActivity extends Activity {
             finish();
         }
         task = (Task) DelegatorActivity.items.get(position);
-        ((TextView) findViewById(R.id.taskview_title)).setText(task.title);
-        ((TextView) findViewById(R.id.taskview_descr)).setText(task.description);
+        ((TextView) findViewById(R.id.taskview_title)).setText(task.getTitle());
+        ((TextView) findViewById(R.id.taskview_descr)).setText(task.getDescription());
         TextView deadline = (TextView) findViewById(R.id.taskview_deadline);
 
         java.text.DateFormat df = android.text.format.DateFormat.getTimeFormat(getApplicationContext());
-        if (task.deadline != null){
-            deadline.setText(df.format(task.deadline.getTime()));
+        if (task.getDeadline() != null){
+            deadline.setText(df.format(task.getDeadline().getTime()));
         } else {
             deadline.setText(getText(R.string.taskview_no_deadline_text));
         } 
@@ -52,11 +52,11 @@ public class TaskActivity extends Activity {
         
         case DelegatorActivity.EDIT_TASK: //If AddActivity returns result through TaskActivity for example
             if (resultCode != RESULT_CANCELED){
-                task.description = data.getStringExtra("DESCRIPTION");
-                task.estimatedTime = data.getIntExtra("ESTIMATED_TIME", 0);
+                task.setDescription(data.getStringExtra("DESCRIPTION"));
+                task.setEstimatedTime(data.getIntExtra("ESTIMATED_TIME", 0));
                 long l = data.getLongExtra("DATE", 0);
                 if (l != 0){
-                    task.deadline = new Date(l);
+                    task.setDeadline(new Date(l));
                 }
             }
             break;

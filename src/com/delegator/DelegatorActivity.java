@@ -6,19 +6,12 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import org.json.JSONException;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.ParseException;
-
-
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -28,8 +21,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -208,11 +199,11 @@ public class DelegatorActivity extends Activity {
             }
             else {
                 Task t = new Task(data.getStringExtra("TITLE"), localUser);
-                t.description = data.getStringExtra("DESCRIPTION");
-                t.estimatedTime = data.getIntExtra("ESTIMATED_TIME", 0);
+                t.setDescription(data.getStringExtra("DESCRIPTION"));
+                t.setEstimatedTime(data.getIntExtra("ESTIMATED_TIME", 0));
                 long l = data.getLongExtra("DATE", 0);
                 if (l != 0){
-                    t.deadline = new Date(l);
+                    t.setDeadline(new Date(l));
                 }
                 int pos = data.getIntExtra("CATEGORY_POS", -1);
                 adapter.insert(t, pos + 1);
@@ -279,11 +270,11 @@ public class DelegatorActivity extends Activity {
                     final TextView progress = (TextView)v.findViewById(R.id.list_item_task_progress);
                     final Button button = (Button)v.findViewById(R.id.list_item_task_button);
                
-                    title.setText((ei.title));  
-                    descr.setText(ei.description);
+                    title.setText((ei.getTitle()));  
+                    descr.setText(ei.getDescription());
                     DecimalFormat df = new DecimalFormat("#.##");
                     progress.setText(getString(R.string.list_item_task_progress_prefix) + " " +
-                                     df.format(((double) ei.getTotalMinutes()* 100 / ei.estimatedTime)) + "%");
+                                     df.format(((double) ei.getTotalMinutes()* 100 / ei.getEstimatedTime())) + "%");
                 
                     if (ei.finished){
                         title.setPaintFlags(title.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG); //ugly
