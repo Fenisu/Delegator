@@ -161,9 +161,9 @@ public class AddActivity extends Activity {
                 else
                 	currentTask.estimatedTime = 1;
                 currentTask.deadline = chosenDate;
-                currentTask.category = chosenCategoryPos;
+                currentTask.category = category.get(chosenCategoryPos);
                 
-                InOutHelper.writeJSON(currentTask);                
+                DirectIO.NewItem(currentTask);                
                 setResult(RESULT_OK, i);
             }
             else {
@@ -210,7 +210,7 @@ public class AddActivity extends Activity {
      * Creates the Dialog for Time / Date picker
      * using switch case.
      * 
-     * @author NNMN
+     * @author NoNaMeNo
      */
     @Override
 	protected Dialog onCreateDialog(int id) {
@@ -230,7 +230,7 @@ public class AddActivity extends Activity {
      * Updates the text showed in the Time / Date buttons
      * with the defined variables of the class.
      * 
-     * @author NNMN
+     * @author NoNaMeNo
      */
  	private void updateDisplay() {
  		mPickTime.setText(
@@ -249,7 +249,7 @@ public class AddActivity extends Activity {
      * Callback received when the user "sets" the time in 
      * the Time dialog.
      * 
-     * @author NNMN
+     * @author NoNaMeNo
      */
  	private TimePickerDialog.OnTimeSetListener mTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
  			public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
@@ -263,7 +263,7 @@ public class AddActivity extends Activity {
      * Callback received when the user "sets" the date in 
      * the Date dialog.
      * 
-     * @author NNMN
+     * @author NoNaMeNo
      */
  	private DatePickerDialog.OnDateSetListener mDateSetListener = new DatePickerDialog.OnDateSetListener() {
  				// Executed when the "Set" button is pressed
@@ -290,7 +290,7 @@ public class AddActivity extends Activity {
     /**
      * String formatting, adds a zero to a single digit number. 
      * 
-     * @author NNMN
+     * @author NoNaMeNo
      */
  	private static String pad(int c) {
  		if (c >= 10)

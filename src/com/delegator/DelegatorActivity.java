@@ -2,9 +2,9 @@ package com.delegator;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
-import java.util.List;
+
+import org.json.JSONException;
 
 import android.app.Activity;
 import android.content.Context;
@@ -12,7 +12,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
-import android.os.Environment;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -29,41 +29,42 @@ import android.widget.Toast;
 
 public class DelegatorActivity extends Activity {
 	public static final String LIST_POSITION = "LIST_POSITION";
-    public static ArrayList<Item> items = new ArrayList<Item>();
+    public static ArrayList<Item> items;
     public final static Collaborator localUser = new Collaborator("Adam Johansson", "luceatadam@gmail.com", "+46736001187");
     private static final int ADD_TASK = 128;
     private static final boolean FIRST_RUN = true;
-    //public ArrayList<Item> items = new ArrayList<Item>();
+    
     ListView l;
-    public TaskAdapter adapter;
+    public static TaskAdapter adapter;
+    public Task currentTask;
     //Workaround for bug #7139 remembers the item# of listview
     private View lastMenuView = null; 
-
+    
     /**
      * (non-Javadoc)
      * @see android.app.Activity#onCreate(android.os.Bundle)
      */
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
-        InOutHelper.jsonSetContext(getApplicationContext());
+        DirectIO.jsonSetContext(getApplicationContext());
         if (FIRST_RUN){
             items = new ArrayList<Item>();
-
-			List<Task> taskList = InOutHelper.loadToTask();
-			if(taskList != null) {
-				for(Task taskItem : taskList) {
-					items.add(taskItem);
-				}
+            
+            DirectIO.checkFirst();
+            try {
+				items = DirectIO.File2ItemList();
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
         }
         
+        Log.w("oncreate", items.toString());
         adapter = new TaskAdapter(this, items);
 
         l = (ListView) findViewById(R.id.list);
         l.setAdapter(adapter);
         l.setItemsCanFocus(true);
-        
     }
     
     /**
@@ -72,7 +73,6 @@ public class DelegatorActivity extends Activity {
      */
     protected void onStart(){
         super.onStart();
-
     }
     
     /**
@@ -86,7 +86,6 @@ public class DelegatorActivity extends Activity {
         return true;
     }
     
-    
     //Might be broken.
     protected void onListItemClick(ListView l, View v, int position, long id) {
 
@@ -95,11 +94,9 @@ public class DelegatorActivity extends Activity {
             // TODO Allow here to change name of category
         }
         else{ //Must be a Task item
-            
             Task item = (Task)items.get(position);
             // TODO Do something when a task is clicked in list        
         }
-        
         //super.onListItemClick(l, v, position, id);
     }
     
@@ -128,18 +125,18 @@ public class DelegatorActivity extends Activity {
         //This is the workaround...
         ListView parent = (ListView)lastMenuView.getParent();
         int pos = (int)parent.getPositionForView(lastMenuView);
-        String filePath;
         switch (item.getItemId()) {
             case R.id.list_item_menu_finished:
                 ((Task) items.get(pos)).finished = true;    
                 
-                InOutHelper.updateJSON((Task) items.get(pos));
+                DirectIO.UpdateItem((Task) items.get(pos));
                 adapter.notifyDataSetChanged();
                 return true;
             case R.id.list_item_menu_remove:
             	
-            	InOutHelper.removeJSON((Task) items.get(pos));
-                adapter.remove(items.get(pos)); 
+            	DirectIO.RemoveItem((Task) items.get(pos));
+            	adapter.notifyDataSetChanged();
+                //adapter.remove(items.get(pos)); 
                 return true;
             default:
                 return super.onContextItemSelected(item);
@@ -158,7 +155,7 @@ public class DelegatorActivity extends Activity {
             if (!i.isCategory()){
                 Task t = (Task) i;
                 if(t.finished){
-                	InOutHelper.removeJSON(t);
+                	DirectIO.RemoveItem(t);
                     adapter.remove(i);
                 }
             }
@@ -218,6 +215,7 @@ public class DelegatorActivity extends Activity {
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
+    	/*
         switch (requestCode){
         case ADD_TASK: //If AddActivity has returned result
             if (resultCode == RESULT_CANCELED){
@@ -237,7 +235,7 @@ public class DelegatorActivity extends Activity {
             }
             break;
         }
-        
+        */
     }
     
     /**
