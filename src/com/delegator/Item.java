@@ -2,5 +2,7 @@ package com.delegator;
 
 public interface Item {
 
-    public boolean isCategory();
+    String title = null;
+
+	public boolean isCategory();
 }

@@ -99,12 +99,15 @@ public class Task implements Item{
     private ArrayList<Collaborator> collaborators = new ArrayList<Collaborator>();
     private int[] collaboratorTime = new int[1];
     boolean finished = false;
-	private int estimatedTime;
     public int category; //UNUSED
+    public int estimatedTime;
+    public String category;
+    public boolean isCategory;
     
     public Task(String title, Collaborator owner){
         this.title = title;
         collaborators.add(owner);
+        isCategory = false;
     }
     
     /**
@@ -136,8 +139,13 @@ public class Task implements Item{
      * @param Collaborator the collaborator who contributed
      */
     public void addProgress(int progress, Collaborator collaborator){
-    	int pos = collaborators.indexOf(collaborator);
-    	collaboratorTime[pos] += progress;
+    	// Forcing collaborator = LocalUser
+    	// int pos = collaborators.indexOf(collaborator);
+    	// collaboratorTime[pos] += progress;
+    	collaboratorTime[0] += progress;
+    	if(collaboratorTime[0] == estimatedTime){
+    		finished = true;
+    	}
     }
     
     /**
@@ -151,7 +159,7 @@ public class Task implements Item{
     }
     
     public String toString() {
-    	String s = "Title: " + title + ", description: " + description + ", estimatedTime: " + estimatedTime + ".";
+    	String s = "-Task Title: " + title + ", description: " + description + ", estimatedTime: " + estimatedTime + "-";
     	return s;
     }
 
