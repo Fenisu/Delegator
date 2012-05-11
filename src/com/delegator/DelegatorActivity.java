@@ -117,7 +117,6 @@ public class DelegatorActivity extends Activity {
         //This is the workaround...
         ListView parent = (ListView)lastMenuView.getParent();
         int pos = (int)parent.getPositionForView(lastMenuView);
-        String filePath;
         switch (item.getItemId()) {
             case R.id.list_item_menu_finished:
                 ((Task) items.get(pos)).finished = true;    
