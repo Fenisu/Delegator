@@ -36,11 +36,11 @@ public class TimerActivity extends Activity {
 		if (isFinishing()){
 			if (!forfeit){
 				currentTask.addProgress(clockHelper.getElapsedTime(), DelegatorActivity.localUser);
-				String filePath = getExternalFilesDir(null) + "/data.json";
-				InOutHelper.updateJSON(currentTask);
+				DirectIO.UpdateItem(currentTask);
+				DelegatorActivity.adapter.notifyDataSetChanged();
 			}
 		}
-	      super.onDestroy();
+	    super.onDestroy();
 	}
 	
 	public void onButtonClick(View v){

@@ -4,7 +4,8 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.List;
+
+import org.json.JSONException;
 
 import android.app.Activity;
 import android.content.Context;
@@ -12,6 +13,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
+
+import android.util.Log;
+
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -29,17 +33,18 @@ import android.widget.Toast;
 
 public class DelegatorActivity extends Activity {
 	public static final String LIST_POSITION = "LIST_POSITION";
-    public static ArrayList<Item> items = new ArrayList<Item>();
+    public static ArrayList<Item> items;
     public final static Collaborator localUser = new Collaborator("Adam Johansson", "luceatadam@gmail.com", "+46736001187");
     private static final int ADD_TASK = 128;
     public static final int EDIT_TASK = 129;
     private static final boolean FIRST_RUN = true;
     
     ListView l;
-    public TaskAdapter adapter;
+    public static TaskAdapter adapter;
+    public Task currentTask;
     //Workaround for bug #7139 remembers the item# of listview
     private View lastMenuView = null; 
-
+    
     /**
      * (non-Javadoc)
      * @see android.app.Activity#onCreate(android.os.Bundle)
@@ -47,24 +52,25 @@ public class DelegatorActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        InOutHelper.jsonSetContext(getApplicationContext());
+        DirectIO.jsonSetContext(getApplicationContext());
         if (FIRST_RUN){
             items = new ArrayList<Item>();
-
-			List<Task> taskList = InOutHelper.loadToTask();
-			if(taskList != null) {
-				for(Task taskItem : taskList) {
-					items.add(taskItem);
-				}
+            
+            DirectIO.checkFirst();
+            try {
+				items = DirectIO.File2ItemList();
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
         }
         
+        Log.w("oncreate", items.toString());
         adapter = new TaskAdapter(this, items);
 
         l = (ListView) findViewById(R.id.list);
         l.setAdapter(adapter);
         l.setItemsCanFocus(true);
-        
     }
     
     /**
@@ -73,7 +79,10 @@ public class DelegatorActivity extends Activity {
      */
     public void onStart(){
         super.onStart();
-
+    }
+    
+    public void onResume(){
+        super.onResume();
     }
     
     public void onResume(){
@@ -122,13 +131,14 @@ public class DelegatorActivity extends Activity {
             case R.id.list_item_menu_finished:
                 ((Task) items.get(pos)).finished = true;    
                 
-                InOutHelper.updateJSON((Task) items.get(pos));
+                DirectIO.UpdateItem((Task) items.get(pos));
                 adapter.notifyDataSetChanged();
                 return true;
             case R.id.list_item_menu_remove:
             	
-            	InOutHelper.removeJSON((Task) items.get(pos));
-                adapter.remove(items.get(pos)); 
+            	DirectIO.RemoveItem((Task) items.get(pos));
+            	adapter.notifyDataSetChanged();
+                //adapter.remove(items.get(pos)); 
                 return true;
             default:
                 return super.onContextItemSelected(item);
@@ -147,13 +157,28 @@ public class DelegatorActivity extends Activity {
             if (!i.isCategory()){
                 Task t = (Task) i;
                 if(t.finished){
-                	InOutHelper.removeJSON(t);
+                	DirectIO.RemoveItem(t);
                     adapter.remove(i);
                 }
             }
         }
     }
-    
+        
+    /**
+     * Handles a click on a "Show timer" button
+     * 
+     * @param v the view (button) being clicked
+     */
+/*
+    public void timerClickHandler(View v){
+    	//Position in ListView of button being clicked
+    	int pos = ((ListView)(v.getParent().getParent().getParent())).getPositionForView(v);
+    	Intent i = new Intent(getBaseContext(), TimerActivity.class);
+    	i.putExtra(LIST_POSITION, pos);
+    	startActivity(i);
+    	adapter.notifyDataSetChanged();
+    }
+*/    
     /**
      * What to do when an options item has been clicked
      * (These are defined in bar_menu)
@@ -206,7 +231,10 @@ public class DelegatorActivity extends Activity {
                     t.setDeadline(new Date(l));
                 }
                 int pos = data.getIntExtra("CATEGORY_POS", -1);
-                adapter.insert(t, pos + 1);
+                t.category = data.getStringExtra("CATEGORY");
+                
+                DirectIO.NewItem(t);
+                //adapter.insert(t, pos + 1);
             }
             break;
 
