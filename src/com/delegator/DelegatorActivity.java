@@ -2,6 +2,7 @@ package com.delegator;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 
 import org.json.JSONException;
@@ -46,6 +47,7 @@ public class DelegatorActivity extends Activity {
      */
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.main);
         DirectIO.jsonSetContext(getApplicationContext());
         if (FIRST_RUN){
             items = new ArrayList<Item>();
@@ -75,6 +77,10 @@ public class DelegatorActivity extends Activity {
         super.onStart();
     }
     
+    public void onResume(){
+        super.onResume();
+    }
+    
     /**
      * (non-Javadoc)
      * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
@@ -84,20 +90,6 @@ public class DelegatorActivity extends Activity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.bar_menu, menu);
         return true;
-    }
-    
-    //Might be broken.
-    protected void onListItemClick(ListView l, View v, int position, long id) {
-
-        
-        if(items.get(position).isCategory()){
-            // TODO Allow here to change name of category
-        }
-        else{ //Must be a Task item
-            Task item = (Task)items.get(position);
-            // TODO Do something when a task is clicked in list        
-        }
-        //super.onListItemClick(l, v, position, id);
     }
     
     /**
@@ -125,6 +117,7 @@ public class DelegatorActivity extends Activity {
         //This is the workaround...
         ListView parent = (ListView)lastMenuView.getParent();
         int pos = (int)parent.getPositionForView(lastMenuView);
+        String filePath;
         switch (item.getItemId()) {
             case R.id.list_item_menu_finished:
                 ((Task) items.get(pos)).finished = true;    
@@ -161,7 +154,7 @@ public class DelegatorActivity extends Activity {
             }
         }
     }
-    
+        
     /**
      * Handles a click on a "Show timer" button
      * 
@@ -175,7 +168,6 @@ public class DelegatorActivity extends Activity {
     	startActivity(i);
     	adapter.notifyDataSetChanged();
     }
-    
     
     /**
      * What to do when an options item has been clicked
@@ -215,7 +207,6 @@ public class DelegatorActivity extends Activity {
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
-    	/*
         switch (requestCode){
         case ADD_TASK: //If AddActivity has returned result
             if (resultCode == RESULT_CANCELED){
@@ -231,11 +222,14 @@ public class DelegatorActivity extends Activity {
                     t.deadline = new Date(l);
                 }
                 int pos = data.getIntExtra("CATEGORY_POS", -1);
-                adapter.insert(t, pos + 1);
+                t.category = data.getStringExtra("CATEGORY");
+                
+                DirectIO.NewItem(t);
+                //adapter.insert(t, pos + 1);
             }
             break;
         }
-        */
+        
     }
     
     /**

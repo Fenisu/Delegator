@@ -1,20 +1,8 @@
 package com.delegator;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.LinkedList;
-
-import org.json.JSONException;
-import org.json.simple.JSONObject;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -23,7 +11,6 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -161,9 +148,10 @@ public class AddActivity extends Activity {
                 else
                 	currentTask.estimatedTime = 1;
                 currentTask.deadline = chosenDate;
+                i.putExtra("CATEGORY", category.get(chosenCategoryPos));
                 currentTask.category = category.get(chosenCategoryPos);
                 
-                DirectIO.NewItem(currentTask);                
+                //DirectIO.NewItem(currentTask);                
                 setResult(RESULT_OK, i);
             }
             else {
